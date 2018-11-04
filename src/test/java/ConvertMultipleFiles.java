@@ -12,7 +12,7 @@ public class ConvertMultipleFiles {
     private static final String EXTENSION = "txt";
     private static final String OUTPUT_DIR = "toutput/";
     private static final String OUTPUT_FILE = OUTPUT_DIR + NAME + ".o" + EXTENSION;
-    private static final int NUMBER_OF_DIRS = 3000;
+    private static final int NUMBER_OF_DIRS = 30; // Tested up to 3000
     private FileToBytesExporter mToBytesExporter;
 
     @Before
