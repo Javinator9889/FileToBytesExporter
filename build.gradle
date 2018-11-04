@@ -1,7 +1,42 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
 }
 
+apply plugin: 'java'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'FileToBytesExporter'
+
+    publishedGroupId = 'com.github.javinator9889'
+    libraryName = 'FileToBytesExporter'
+    artifact = 'filetobytesexporter'
+
+    libraryDescription = 'Generate binary files from regular text ones.'
+
+    siteUrl = 'https://github.com/Javinator9889/FileToBytesExporter'
+    gitUrl = 'https://github.com/Javinator9889/FileToBytesExporter.git'
+
+    libraryVersion = '1.0.2'
+
+    developerId = 'Javinator9889'
+    developerName = 'Javinator9889'
+    developerEmail = 'javialonso007@hotmail.es'
+
+    licenseName = 'GNU General Public License v3.0'
+    licenseUrl = 'https://github.com/Javinator9889/FileToBytesExporter/blob/master/LICENSE'
+    allLicenses = ["GPL-3"]
+}
+
+group = 'com.github.javinator9889'
 version '1.0.2'
 
 sourceCompatibility = 1.8
@@ -9,16 +44,92 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
 }
-apply plugin: 'java'
 
 dependencies {
     testCompile 'junit:junit:4.12'
-//    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 jar {
     manifest {
         attributes('Implementation-Title': project.name,
                 'Implementation-Version': project.version)
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging 'aar'
+            groupId 'com.github.javinator9889'
+            artifactId 'filetobytesexporter'
+
+            name 'File To Bytes Exporter'
+            description 'Generate binary files from regular text ones.'
+            url 'https://github.com/Javinator9889/FileToBytesExporter'
+
+            licenses {
+                license {
+                    name 'GPL-3'
+                    url 'https://github.com/Javinator9889/FileToBytesExporter/blob/master/LICENSE'
+                }
+            }
+            developers {
+                developer {
+                    id 'Javinator9889'
+                    name 'Javinator9889'
+                    email 'javialonso007@hotmail.es'
+                }
+            }
+            scm {
+                connection 'scm:git:https://github.com/Javinator9889/FileToBytesExporter.git'
+                developerConnection 'scm:git:git@github.com:Javinator9889/FileToBytesExporter.git'
+                url 'https://github.com/Javinator9889/FileToBytesExporter'
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.java.srcDirs
+}
+
+//task javadoc(type: Javadoc) {
+//    source = sourceSets.main.java.srcDirs
+//    classpath += project.files(getBootClasspath().join(File.pathSeparator))
+//}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = false
+        publish = true
+        override = false
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
     }
 }

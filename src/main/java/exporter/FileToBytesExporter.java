@@ -287,8 +287,8 @@ public class FileToBytesExporter implements Cloneable, Serializable {
 
     /**
      * Writes the read object to the specified destination given at {@code destination}. If it does
-     * not exists, {@code exporter.FileToBytesExporter} will create all the necessary directories in order to
-     * work as expected.
+     * not exists, {@code exporter.FileToBytesExporter} will create all the necessary directories in
+     * order to work as expected.
      *
      * @param destination relative or complete path to the output file - cannot be only dir.
      *
@@ -368,8 +368,8 @@ public class FileToBytesExporter implements Cloneable, Serializable {
      * algorithm} was found, it just returns the {@link String#hashCode()} casted to {@code
      * String}.<p>
      *
-     * You can {@code @Override} this method if you inherit from {@code exporter.FileToBytesExporter} if you
-     * need any other {@link StandardCharsets} charset.
+     * You can {@code @Override} this method if you inherit from {@code
+     * exporter.FileToBytesExporter} if you need any other {@link StandardCharsets} charset.
      *
      * @param source original {@code String} where obtaining bytes from.
      *
@@ -559,23 +559,25 @@ public class FileToBytesExporter implements Cloneable, Serializable {
          * <p>
          * Matches all files corresponding the specified glob (
          * <a href="https://en.wikipedia.org/wiki/Glob_(programming)">see Glob</a>
-         * for more information).<br /><br />
+         * for more information).<p>
          *
          * Glob is only working at the current working directory, that must be included always,
          * cannot be {@code null} and it must {@link File#exists() exists}. If not, a {@link
-         * InvalidPathException} is thrown.<br /><br />
+         * InvalidPathException} is thrown.<p>
          *
          * The {@code String} glob must contain a filename or a glob sequence (see the link
          * referenced before for more information). It cannot be {@code null} or an empty String
-         * ({@code ""}). If not, an {@link IllegalArgumentException} is thrown.<br /><br />
-         * </p>
+         * ({@code ""}). If not, an {@link IllegalArgumentException} is thrown.<p>
          *
-         * @param workingDirectory current working directory as {@link File} - it must exists and
-         *                         cannot be {@code null}.
-         * @param glob             glob that matches a filename or a
-         *                         <a href="https://en.wikipedia.org/wiki/Glob_(programming)">glob
-         *                         sequence</a>. It cannot be {@code null} or an empty String {@code
-         *                         ""}.
+         * @param workingDirectory   current working directory as {@link File} - it must exists and
+         *                           cannot be {@code null}.
+         * @param glob               glob that matches a filename or a
+         *                           <a href="https://en.wikipedia.org/wiki/Glob_(programming)">glob
+         *                           sequence</a>. It cannot be {@code null} or an empty String
+         *                           {@code ""}.
+         * @param mustInspectAllDirs if set to {@code true}, it will navigate through the entire
+         *                           dirs and subdirectories, looking for the specified file. Else,
+         *                           it will just look for the files at current folder.
          *
          * @return {@code ArrayList} with the found files, {@code null} if no files were found.
          *

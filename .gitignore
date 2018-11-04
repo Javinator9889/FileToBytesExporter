@@ -15,3 +15,6 @@ gradle-app.setting
 
 dirs
 toutput
+secret.gpg
+secring.gpg
+local.properties
