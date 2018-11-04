@@ -1,5 +1,8 @@
 package error;
 
+/**
+ * If any of the provided paths is not valid, this exception class is called
+ */
 public class InvalidPathException extends RuntimeException {
     /**
      * Constructs a new runtime exception with the specified detail message. The cause is not

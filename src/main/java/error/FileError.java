@@ -1,5 +1,8 @@
 package error;
 
+/**
+ * Whether there is an error with a file, this exception class is used
+ */
 public class FileError extends RuntimeException {
     /**
      * Constructs a new runtime exception with the specified detail message. The cause is not

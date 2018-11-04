@@ -1,5 +1,8 @@
 package error;
 
+/**
+ * If the used file separator is not valid, this exception class is called
+ */
 public class InvalidFileSeparatorException extends RuntimeException {
     /**
      * Constructs a new runtime exception with the specified detail message. The cause is not

@@ -1,3 +1,5 @@
+package exporter;
+
 import error.FileError;
 import error.InvalidPathException;
 import error.MultipleFilesFoundError;
@@ -285,7 +287,7 @@ public class FileToBytesExporter implements Cloneable, Serializable {
 
     /**
      * Writes the read object to the specified destination given at {@code destination}. If it does
-     * not exists, {@code FileToBytesExporter} will create all the necessary directories in order to
+     * not exists, {@code exporter.FileToBytesExporter} will create all the necessary directories in order to
      * work as expected.
      *
      * @param destination relative or complete path to the output file - cannot be only dir.
@@ -366,7 +368,7 @@ public class FileToBytesExporter implements Cloneable, Serializable {
      * algorithm} was found, it just returns the {@link String#hashCode()} casted to {@code
      * String}.<p>
      *
-     * You can {@code @Override} this method if you inherit from {@code FileToBytesExporter} if you
+     * You can {@code @Override} this method if you inherit from {@code exporter.FileToBytesExporter} if you
      * need any other {@link StandardCharsets} charset.
      *
      * @param source original {@code String} where obtaining bytes from.
