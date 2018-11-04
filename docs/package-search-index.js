@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l": "error"}, {"l": "exporter"}];
+packageSearchIndex = [{"l": "com.github.javinator9889.error"}, {"l": "com.github.javinator9889.exporter"}];

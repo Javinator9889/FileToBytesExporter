@@ -1,4 +1,4 @@
-package error;
+package com.github.javinator9889.error;
 
 /**
  * If the used file separator is not valid, this exception class is called

@@ -1,8 +1,9 @@
-package exporter;
+package com.github.javinator9889.exporter;
 
-import error.FileError;
-import error.InvalidPathException;
-import error.MultipleFilesFoundError;
+import com.github.javinator9889.error.FileError;
+import com.github.javinator9889.error.InvalidFileSeparatorException;
+import com.github.javinator9889.error.InvalidPathException;
+import com.github.javinator9889.error.MultipleFilesFoundError;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -18,8 +19,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 /**
- * <p>Files to bytes exporter provides a <b>custom, fast</b> class for generating <i>binary
- * files</i> from plain (or not) text files.
+ * <p>Files to bytes exporter provides a <b>custom, fast</b> class for
+ * generating <i>binary files</i> from plain (or not) text files.
  * <p>
  * Binary files are present at <b>every computer</b> and the have some interesting advantages facing
  * regular text files:
@@ -186,17 +187,17 @@ public class FileToBytesExporter implements Cloneable, Serializable {
      * @param fileSeparator    the {@code String} that will be added at the end of the just read
      *                         file if any other file was found.
      *
-     * @throws MultipleFilesFoundError             if multiple files were found and {@code
-     *                                             mustOpenAllFiles} is {@code false}.
-     * @throws error.InvalidFileSeparatorException when multiple files were found and {@code
-     *                                             fileSeparator} is null.
-     * @throws InvalidPathException                when one of the provided paths does not exists or
-     *                                             any other error happened (like having not enough
-     *                                             permissions).
-     * @throws FileNotFoundException               when the filename is not found at any of the
-     *                                             directories.
-     * @throws IOException                         when looking for a file using glob and any error
-     *                                             occurred
+     * @throws MultipleFilesFoundError       if multiple files were found and {@code
+     *                                       mustOpenAllFiles} is {@code false}.
+     * @throws InvalidFileSeparatorException when multiple files were found and {@code
+     *                                       fileSeparator} is null.
+     * @throws InvalidPathException          when one of the provided paths does not exists or any
+     *                                       other error happened (like having not enough
+     *                                       permissions).
+     * @throws FileNotFoundException         when the filename is not found at any of the
+     *                                       directories.
+     * @throws IOException                   when looking for a file using glob and any error
+     *                                       occurred
      * @see Glob#match(File, String, boolean)
      */
     public void readSource(boolean mustOpenAllFiles, final String fileSeparator)
@@ -249,8 +250,6 @@ public class FileToBytesExporter implements Cloneable, Serializable {
                     results.append(line).append("\n");
                 }
             } catch (IOException ignored) {
-                System.err.println("Exception on thread: #" + i +
-                        "\nMessage: " + ignored.getMessage());
                 // This will never happen as we have ensured that all files exists
             } catch (InterruptedException e) {
                 System.err.println("Interruption while executing! - Thread #" + i);
@@ -287,8 +286,8 @@ public class FileToBytesExporter implements Cloneable, Serializable {
 
     /**
      * Writes the read object to the specified destination given at {@code destination}. If it does
-     * not exists, {@code exporter.FileToBytesExporter} will create all the necessary directories in
-     * order to work as expected.
+     * not exists, {@code com.github.javinator9889.exporter.FileToBytesExporter} will create all the
+     * necessary directories in order to work as expected.
      *
      * @param destination relative or complete path to the output file - cannot be only dir.
      *
@@ -368,8 +367,8 @@ public class FileToBytesExporter implements Cloneable, Serializable {
      * algorithm} was found, it just returns the {@link String#hashCode()} casted to {@code
      * String}.<p>
      *
-     * You can {@code @Override} this method if you inherit from {@code
-     * exporter.FileToBytesExporter} if you need any other {@link StandardCharsets} charset.
+     * You can {@code @Override} this method if you inherit from {@code FileToBytesExporter} if you
+     * need any other {@link StandardCharsets} charset.
      *
      * @param source original {@code String} where obtaining bytes from.
      *
@@ -607,6 +606,14 @@ public class FileToBytesExporter implements Cloneable, Serializable {
             return matches.size() > 0 ? matches : null;
         }
 
+        /**
+         * Static visitor for exploring the file tree - it has the same behavior as creating an
+         * instance of {@link SimpleFileVisitor}.
+         *
+         * @param <E> must be a {@code Path} or a class that inherits from it.
+         *
+         * @see Path
+         */
         private static final class Visitor<E extends Path> extends SimpleFileVisitor<E> {
             private PathMatcher mPathMatcher;
             private ArrayList<File> mMatches;

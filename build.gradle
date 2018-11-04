@@ -25,7 +25,7 @@ ext {
     siteUrl = 'https://github.com/Javinator9889/FileToBytesExporter'
     gitUrl = 'https://github.com/Javinator9889/FileToBytesExporter.git'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = '1.0.3'
 
     developerId = 'Javinator9889'
     developerName = 'Javinator9889'
@@ -37,7 +37,7 @@ ext {
 }
 
 group = 'com.github.javinator9889'
-version '1.0.2'
+version '1.0.3'
 
 sourceCompatibility = 1.8
 

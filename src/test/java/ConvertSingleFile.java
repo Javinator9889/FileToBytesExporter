@@ -1,4 +1,4 @@
-import exporter.FileToBytesExporter;
+import com.github.javinator9889.exporter.FileToBytesExporter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

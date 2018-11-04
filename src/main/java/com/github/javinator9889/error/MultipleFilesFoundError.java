@@ -1,4 +1,4 @@
-package error;
+package com.github.javinator9889.error;
 
 /**
  * Exception when multiple files where found and the option to read them all is not active

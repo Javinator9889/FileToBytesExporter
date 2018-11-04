@@ -1,4 +1,4 @@
-package error;
+package com.github.javinator9889.error;
 
 /**
  * Whether there is an error with a file, this exception class is used

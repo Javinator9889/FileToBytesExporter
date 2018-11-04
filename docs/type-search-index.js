@@ -1,16 +1,25 @@
 typeSearchIndex = [{"p": "<Unnamed>", "l": "ConvertMultipleFiles"}, {
     "p": "<Unnamed>",
     "l": "ConvertSingleFile"
-}, {"p": "error", "l": "FileError"}, {
-    "p": "exporter",
+}, {
+    "p": "com.github.javinator9889.error",
+    "l": "FileError"
+}, {
+    "p": "com.github.javinator9889.exporter",
     "l": "FileToBytesExporter"
-}, {"p": "exporter", "l": "FileToBytesExporter.Glob"}, {
-    "p": "exporter",
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "l": "FileToBytesExporter.Glob"
+}, {
+    "p": "com.github.javinator9889.exporter",
     "l": "FileToBytesExporter.Glob.Visitor"
-}, {"p": "exporter", "l": "FileToBytesExporter.Lock"}, {
-    "p": "error",
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "l": "FileToBytesExporter.Lock"
+}, {
+    "p": "com.github.javinator9889.error",
     "l": "InvalidFileSeparatorException"
-}, {"p": "error", "l": "InvalidPathException"}, {"p": "<Unnamed>", "l": "Measure"}, {
-    "p": "error",
-    "l": "MultipleFilesFoundError"
-}];
+}, {"p": "com.github.javinator9889.error", "l": "InvalidPathException"}, {
+    "p": "<Unnamed>",
+    "l": "Measure"
+}, {"p": "com.github.javinator9889.error", "l": "MultipleFilesFoundError"}];
