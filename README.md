@@ -64,7 +64,7 @@ Then, you can just include the lib:
 <dependency>
   <groupId>com.github.javinator9889</groupId>
   <artifactId>filetobytesexporter</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <type>pom</type>
 </dependency>
 ```
@@ -80,7 +80,7 @@ repositories {
 
 Then, you can just include the lib:
 ```groovy
-implementation 'com.github.javinator9889:filetobytesexporter:1.0.3'
+implementation 'com.github.javinator9889:filetobytesexporter:1.0.4'
 ```
 
 ### Ivy
@@ -97,7 +97,7 @@ implementation 'com.github.javinator9889:filetobytesexporter:1.0.3'
 
 Then, you can just include the lib:
 ```xml
-<dependency org='com.github.javinator9889' name='filetobytesexporter' rev='1.0.3'>
+<dependency org='com.github.javinator9889' name='filetobytesexporter' rev='1.0.4'>
   <artifact name='filetobytesexporter' ext='pom' ></artifact>
 </dependency>
 ```
