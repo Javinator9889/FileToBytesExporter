@@ -9,8 +9,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 ext {
     bintrayRepo = 'maven'
@@ -25,7 +23,7 @@ ext {
     siteUrl = 'https://github.com/Javinator9889/FileToBytesExporter'
     gitUrl = 'https://github.com/Javinator9889/FileToBytesExporter.git'
 
-    libraryVersion = '1.0.3'
+    libraryVersion = '1.0.4'
 
     developerId = 'Javinator9889'
     developerName = 'Javinator9889'
@@ -37,7 +35,7 @@ ext {
 }
 
 group = 'com.github.javinator9889'
-version '1.0.3'
+version '1.0.4'
 
 sourceCompatibility = 1.8
 
@@ -56,80 +54,5 @@ jar {
     }
 }
 
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            packaging 'aar'
-            groupId 'com.github.javinator9889'
-            artifactId 'filetobytesexporter'
-
-            name 'File To Bytes Exporter'
-            description 'Generate binary files from regular text ones.'
-            url 'https://github.com/Javinator9889/FileToBytesExporter'
-
-            licenses {
-                license {
-                    name 'GPL-3'
-                    url 'https://github.com/Javinator9889/FileToBytesExporter/blob/master/LICENSE'
-                }
-            }
-            developers {
-                developer {
-                    id 'Javinator9889'
-                    name 'Javinator9889'
-                    email 'javialonso007@hotmail.es'
-                }
-            }
-            scm {
-                connection 'scm:git:https://github.com/Javinator9889/FileToBytesExporter.git'
-                developerConnection 'scm:git:git@github.com:Javinator9889/FileToBytesExporter.git'
-                url 'https://github.com/Javinator9889/FileToBytesExporter'
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.java.srcDirs
-}
-
-//task javadoc(type: Javadoc) {
-//    source = sourceSets.main.java.srcDirs
-//    classpath += project.files(getBootClasspath().join(File.pathSeparator))
-//}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        desc = libraryDescription
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = allLicenses
-        dryRun = false
-        publish = true
-        override = false
-        publicDownloadNumbers = true
-        version {
-            desc = libraryDescription
-        }
-    }
-}
+apply from: 'https://raw.githubusercontent.com/brightec/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/brightec/JCenter/master/bintrayv1.gradle'

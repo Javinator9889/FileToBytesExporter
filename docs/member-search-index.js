@@ -166,6 +166,11 @@ memberSearchIndex = [{
 }, {
     "p": "com.github.javinator9889.exporter",
     "c": "FileToBytesExporter",
+    "l": "readObject(InputStream)",
+    "url": "readObject-java.io.InputStream-"
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "c": "FileToBytesExporter",
     "l": "readSource()"
 }, {
     "p": "com.github.javinator9889.exporter",
@@ -222,4 +227,9 @@ memberSearchIndex = [{
     "c": "FileToBytesExporter",
     "l": "writeObject(File)",
     "url": "writeObject-java.io.File-"
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "c": "FileToBytesExporter",
+    "l": "writeObject(OutputStream)",
+    "url": "writeObject-java.io.OutputStream-"
 }];

@@ -313,8 +313,22 @@ public class FileToBytesExporter implements Cloneable, Serializable {
         if (destination.isDirectory())
             throw new IOException(String.format("Destination file \"%s\" is a directory, not a " +
                     "file.", destination.toString()));
-        try (ObjectOutputStream outputStream =
-                     new ObjectOutputStream(new FileOutputStream(destination))) {
+        writeObject(new FileOutputStream(destination));
+    }
+
+    /**
+     * Writes the read object to the specified destination given at {@code destination}. If it does
+     * not exists, {@code com.github.javinator9889.exporter.FileToBytesExporter} will create all the
+     * necessary directories in order to work as expected.
+     *
+     * @param destination subclass of {@link OutputStream} which contains the output file that can
+     *                    be used at {@link ObjectOutputStream#ObjectOutputStream()} constructor
+     *                    (e.g.: {@link FileOutputStream}).
+     *
+     * @throws IOException when there is an error while writing the file.
+     */
+    public void writeObject(OutputStream destination) throws IOException {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(destination)) {
             String hash = getHash(mReadData);
             String[] output = new String[]{mFileSeparator, hash, mReadData};
             outputStream.writeObject(output);
@@ -344,7 +358,27 @@ public class FileToBytesExporter implements Cloneable, Serializable {
         if (source.isDirectory())
             throw new IOException(String.format("Source file \"%s\" is a directory, not a file.",
                     source.toString()));
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(source))) {
+        readObject(new FileInputStream(source));
+    }
+
+    /**
+     * Reads the data contained at {@code source} obtaining its {@link #mFileSeparator file
+     * separator} (used if more than one file was read) and the {@link #mReadData file data}.
+     *
+     * Both file separator and data can be obtained by using {@link #getFileSeparator()} and {@link
+     * #getReadData()}
+     *
+     * @param source {@link InputStream} subclass that can be used at {@link
+     *               ObjectInputStream#ObjectInputStream(InputStream)} constructor (e.g.: {@link
+     *               FileInputStream}).
+     *
+     * @throws IOException        if there was an error recovering the data.
+     * @throws ClassCastException if the retrieved data is not a {@code String[]}
+     * @throws FileError          if the obtained hash from file is not the same as the generated
+     *                            one from the data extracted from the file.
+     */
+    public void readObject(InputStream source) throws IOException, ClassCastException {
+        try (ObjectInputStream inputStream = new ObjectInputStream(source)) {
             String[] input = (String[]) inputStream.readObject();
             mFileSeparator = input[0];
             String obtainedHash = input[1];

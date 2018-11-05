@@ -18,3 +18,4 @@ toutput
 secret.gpg
 secring.gpg
 local.properties
+*.asc
