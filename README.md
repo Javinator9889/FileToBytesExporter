@@ -104,7 +104,113 @@ Then, you can just include the lib:
 
 You must have to **include JCenter()** in order to make it work.
 
-## 3. Contributing
+## 3. Usage
+
+After [successfully included the library in your project](#2-installation), you must do the following for using this class:
++ Generate a new `FileToBytesExporter` instance.
+
+If **generating a new file**:
++ Setup the source  **filename**.
++ Setup, if necessary, the **paths** where the source file is in.
++ Read the source file(s).
++ Write the *output* file.
+
+If **obtaining an exported file**:
++ Read the *output* file.
++ Obtain the **file separator** (if necessary).
++ Obtain the **file data**.
+
+### 3.1. Writing a new file
+```java
+import com.github.javinator9889.exporter.FileToBytesExporter;
+
+import java.io.File;
+import java.io.IOException;
+
+public class YourClassName {
+    public void generateNewFile() {
+        FileToBytesExporter exporter = new FileToBytesExporter();
+        /* Alternatively, you can use the constructor providing 
+           directly the "filename" and the "paths"
+         */
+        String filename = "inputFile.txt";
+        exporter.setFilename(filename);
+        exporter.setPaths("path1", "path2", "...");
+        // == new FileToBytesExporter(filename, "path1", "path2", "...");
+        try{
+            exporter.readSource(); // ALWAYS NEEDED WHEN EXPORTING
+            // Can throw: MultipleFilesFoundError
+            //            InvalidPathException
+            //            FileNotFoundException
+            //            IOException
+            
+            // If reading more than one file:
+            exporter.readSource(true);
+            
+            // Custom file separator:
+            exporter.readSource(true, "####");
+            // Both can throw also InvalidFileSeparatorException
+            
+            File destination = new File("destinationfile.otxt");
+            exporter.writeObject(destination);
+        } catch (IOException e) {
+            // Handle error
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### 3.2. Recovering a file
+
+```java
+import com.github.javinator9889.exporter.FileToBytesExporter;
+import com.github.javinator9889.error.FileError;
+
+import java.io.File;
+import java.io.IOException;
+
+public class YourClassName {
+    public void recoverFile() {
+        FileToBytesExporter recover = new FileToBytesExporter();
+        File sourceFile = new File("destinationfile.otxt");
+        try {
+            recover.readObject(sourceFile);
+            String fileSeparator = recover.getFileSeparator();
+            String contents = recover.getReadData();
+            
+            // do work with those variables
+            System.out.println("Separator: " + fileSeparator);
+            System.out.println("Contents: \n\n" + contents);
+        } catch (FileError fe) {
+            System.err.println("Hashes are not the same");
+            fe.printStackTrace();
+        } catch (ClassCastException ce) {
+            System.err.println("Recovered file is not valid");
+            ce.printStackTrace();
+        } catch (IOException ioe) {
+            System.err.println("File not found or error while reading data");
+            ioe.printStackTrace();
+        }
+    }
+}
+```
+
+### 3.3. More information
+
+If you want to know *how are this methods working*, which **exceptions** they are throwing and 
+*why*, please read the official documentation:
+
++ [FileToBytesExporter](https://javinator9889.github.io/FileToBytesExporter/com/github/javinator9889/exporter/FileToBytesExporter.html)
++ [void readSource](https://javinator9889.github.io/FileToBytesExporter/com/github/javinator9889/exporter/FileToBytesExporter.html#readSource--)
++ [void writeObject](https://javinator9889.github.io/FileToBytesExporter/com/github/javinator9889/exporter/FileToBytesExporter.html#writeObject-java.io.File-)
++ [void readObject](https://javinator9889.github.io/FileToBytesExporter/com/github/javinator9889/exporter/FileToBytesExporter.html#readObject-java.io.File-)
++ [FileError](https://javinator9889.github.io/FileToBytesExporter/com/github/javinator9889/error/FileError.html)
++ [InvalidFileSeparatorException](https://javinator9889.github.io/FileToBytesExporter/com/github/javinator9889/error/InvalidFileSeparatorException.html)
++ [InvalidPathException](https://javinator9889.github.io/FileToBytesExporter/com/github/javinator9889/error/InvalidPathException.html)
++ [MultipleFilesFoundError](https://javinator9889.github.io/FileToBytesExporter/com/github/javinator9889/error/MultipleFilesFoundError.html)
+
+## 4. Contributing
 
 If you find any error or you want to **add a new feature**, you can perfectly:
 1. Open a **[new issue](https://github.com/Javinator9889/FileToBytesExporter/issues)** completing
@@ -112,7 +218,7 @@ If you find any error or you want to **add a new feature**, you can perfectly:
  
 2. Create a new **[pull request](https://github.com/Javinator9889/FileToBytesExporter/pulls)** 
 with the changes you have made to the project, and waiting my approval for merging them.
-## 4. License
+## 5. License
  
      Copyright © 2018 - present | Javinator9889
  
