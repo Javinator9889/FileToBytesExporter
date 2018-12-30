@@ -30,8 +30,7 @@ Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/js
     return s
 })({
     1: [function (require, module, exports) {
-        var global = typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};
-        /* jshint evil: true, newcap: false */
+        var global = typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};/* jshint evil: true, newcap: false */
         /* global IEBinaryToArray_ByteStr, IEBinaryToArray_ByteStr_Last */
         "use strict";
 

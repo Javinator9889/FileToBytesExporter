@@ -22,4 +22,7 @@ typeSearchIndex = [{"p": "<Unnamed>", "l": "ConvertMultipleFiles"}, {
 }, {"p": "com.github.javinator9889.error", "l": "InvalidPathException"}, {
     "p": "<Unnamed>",
     "l": "Measure"
-}, {"p": "com.github.javinator9889.error", "l": "MultipleFilesFoundError"}];
+}, {"p": "com.github.javinator9889.error", "l": "MultipleFilesFoundError"}, {
+    "p": "<Unnamed>",
+    "l": "StaticTest"
+}];

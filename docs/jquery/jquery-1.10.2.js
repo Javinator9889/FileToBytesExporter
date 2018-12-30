@@ -3204,7 +3204,7 @@
                         deferred.done(arguments).fail(arguments);
                         return this;
                     },
-                    then: function (/* fnDone, fnFail, fnProgress */) {
+                    then: function ( /* fnDone, fnFail, fnProgress */) {
                         var fns = arguments;
                         return jQuery.Deferred(function (newDefer) {
                             jQuery.each(tuples, function (i, tuple) {

@@ -23,7 +23,7 @@ ext {
     siteUrl = 'https://github.com/Javinator9889/FileToBytesExporter'
     gitUrl = 'https://github.com/Javinator9889/FileToBytesExporter.git'
 
-    libraryVersion = '1.0.4'
+    libraryVersion = '1.0.5'
 
     developerId = 'Javinator9889'
     developerName = 'Javinator9889'
@@ -35,7 +35,7 @@ ext {
 }
 
 group = 'com.github.javinator9889'
-//version '1.0.4'
+version '1.0.4'
 
 sourceCompatibility = 1.8
 
@@ -47,12 +47,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-/*jar {
+jar {
     manifest {
         attributes('Implementation-Title': project.name,
                 'Implementation-Version': project.version)
     }
-}*/
+}
 
 apply from: 'https://raw.githubusercontent.com/brightec/JCenter/master/installv1.gradle'
 apply from: 'https://raw.githubusercontent.com/brightec/JCenter/master/bintrayv1.gradle'

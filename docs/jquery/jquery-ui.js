@@ -538,7 +538,7 @@
         };
     };
 
-    $.Widget = function (/* options, element */) {
+    $.Widget = function ( /* options, element */) {
     };
     $.Widget._childConstructors = [];
 

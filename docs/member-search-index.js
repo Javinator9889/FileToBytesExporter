@@ -35,6 +35,10 @@ memberSearchIndex = [{
     "l": "FileError(String, Throwable)",
     "url": "FileError-java.lang.String-java.lang.Throwable-"
 }, {
+    "p": "<Unnamed>",
+    "c": "StaticTest",
+    "l": "filename"
+}, {
     "p": "com.github.javinator9889.exporter",
     "c": "FileToBytesExporter",
     "l": "FileToBytesExporter()"
@@ -46,18 +50,27 @@ memberSearchIndex = [{
 }, {
     "p": "com.github.javinator9889.exporter",
     "c": "FileToBytesExporter",
+    "l": "FileToBytesExporter(String, boolean, String...)",
+    "url": "FileToBytesExporter-java.lang.String-boolean-java.lang.String...-"
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "c": "FileToBytesExporter",
     "l": "FileToBytesExporter(String, String...)",
     "url": "FileToBytesExporter-java.lang.String-java.lang.String...-"
 }, {
     "p": "com.github.javinator9889.exporter",
     "c": "FileToBytesExporter",
-    "l": "FileToBytesExporter(String, ArrayList<String>, String, String)",
-    "url": "FileToBytesExporter-java.lang.String-java.util.ArrayList-java.lang.String-java.lang.String-"
+    "l": "FileToBytesExporter(String, ArrayList<String>, String, String, boolean)",
+    "url": "FileToBytesExporter-java.lang.String-java.util.ArrayList-java.lang.String-java.lang.String-boolean-"
 }, {"p": "<Unnamed>", "c": "ConvertMultipleFiles", "l": "generateDirs()"}, {
     "p": "<Unnamed>",
     "c": "ConvertMultipleFiles",
     "l": "generateFile()"
 }, {"p": "<Unnamed>", "c": "ConvertSingleFile", "l": "generateFile()"}, {
+    "p": "<Unnamed>",
+    "c": "StaticTest",
+    "l": "generateFile()"
+}, {
     "p": "<Unnamed>",
     "c": "ConvertMultipleFiles",
     "l": "getAllDirs()"
@@ -120,6 +133,10 @@ memberSearchIndex = [{
 }, {
     "p": "com.github.javinator9889.exporter",
     "c": "FileToBytesExporter",
+    "l": "mMustOpenSourcePath"
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "c": "FileToBytesExporter",
     "l": "mPath"
 }, {
     "p": "com.github.javinator9889.exporter",
@@ -152,11 +169,15 @@ memberSearchIndex = [{
     "l": "OUTPUT_FILE"
 }, {"p": "<Unnamed>", "c": "ConvertSingleFile", "l": "OUTPUT_FILE"}, {
     "p": "<Unnamed>",
-    "c": "ConvertMultipleFiles",
+    "c": "StaticTest",
+    "l": "parent"
+}, {"p": "<Unnamed>", "c": "ConvertMultipleFiles", "l": "readFile()"}, {
+    "p": "<Unnamed>",
+    "c": "ConvertSingleFile",
     "l": "readFile()"
 }, {
     "p": "<Unnamed>",
-    "c": "ConvertSingleFile",
+    "c": "StaticTest",
     "l": "readFile()"
 }, {
     "p": "com.github.javinator9889.exporter",
@@ -184,8 +205,17 @@ memberSearchIndex = [{
 }, {
     "p": "com.github.javinator9889.exporter",
     "c": "FileToBytesExporter",
+    "l": "readSource(File)",
+    "url": "readSource-java.io.File-"
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "c": "FileToBytesExporter",
     "l": "setFilename(String)",
     "url": "setFilename-java.lang.String-"
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "c": "FileToBytesExporter",
+    "l": "setMustOpenSourcePath(boolean)"
 }, {
     "p": "com.github.javinator9889.exporter",
     "c": "FileToBytesExporter",
@@ -199,7 +229,11 @@ memberSearchIndex = [{
     "p": "<Unnamed>",
     "c": "Measure",
     "l": "START_TIME"
-}, {"p": "<Unnamed>", "c": "Measure", "l": "STOP()"}, {
+}, {"p": "<Unnamed>", "c": "StaticTest", "l": "StaticTest()"}, {
+    "p": "<Unnamed>",
+    "c": "Measure",
+    "l": "STOP()"
+}, {
     "p": "com.github.javinator9889.exporter",
     "c": "FileToBytesExporter",
     "l": "toString()"
@@ -232,4 +266,14 @@ memberSearchIndex = [{
     "c": "FileToBytesExporter",
     "l": "writeObject(OutputStream)",
     "url": "writeObject-java.io.OutputStream-"
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "c": "FileToBytesExporter",
+    "l": "writeObject(String, File)",
+    "url": "writeObject-java.lang.String-java.io.File-"
+}, {
+    "p": "com.github.javinator9889.exporter",
+    "c": "FileToBytesExporter",
+    "l": "writeObject(String, OutputStream)",
+    "url": "writeObject-java.lang.String-java.io.OutputStream-"
 }];

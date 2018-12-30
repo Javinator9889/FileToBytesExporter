@@ -63,8 +63,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
                     if (isNaN(chr2)) {
                         enc3 = enc4 = 64;
-                    }
-                    else if (isNaN(chr3)) {
+                    } else if (isNaN(chr3)) {
                         enc4 = 64;
                     }
 
@@ -244,7 +243,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
                 var isArray = utils.getTypeOf(input) !== "string";
 
-                if (typeof(crc) == "undefined") {
+                if (typeof (crc) == "undefined") {
                     crc = 0;
                 }
                 var x = 0;
@@ -756,8 +755,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                     // JSZip.prototype.utf8decode supports arrays as input
                     // skip to array => string step, utf8decode will do it.
                     result = out.utf8decode(result);
-                }
-                else {
+                } else {
                     // no utf8 transformation, do the array => string step.
                     result = utils.transformTo("string", result);
                 }
@@ -931,8 +929,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                     o.binary = false;
                     data = null;
                     dataType = null;
-                }
-                else if (dataType === "string") {
+                } else if (dataType === "string") {
                     if (o.binary && !o.base64) {
                         // optimizedBinaryString == true means that the file has already been filtered with a 0xFF mask
                         if (o.optimizedBinaryString !== true) {
@@ -941,8 +938,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                             data = utils.string2binary(data);
                         }
                     }
-                }
-                else { // arraybuffer, uint8array, ...
+                } else { // arraybuffer, uint8array, ...
                     o.base64 = false;
                     o.binary = true;
 
@@ -1032,17 +1028,14 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                         compression = compressions['STORE'];
                         result.compressedContent = "";
                         result.crc32 = 0;
-                    }
-                    else if (file._data.compressionMethod === compression.magic) {
+                    } else if (file._data.compressionMethod === compression.magic) {
                         result.compressedContent = file._data.getCompressedContent();
-                    }
-                    else {
+                    } else {
                         content = file._data.getContent();
                         // need to decompress / recompress
                         result.compressedContent = compression.compress(utils.transformTo(compression.compressInputType, content), compressionOptions);
                     }
-                }
-                else {
+                } else {
                     // have uncompressed data
                     content = getBinaryData(file);
                     if (!content || content.length === 0 || file.dir) {
@@ -1338,14 +1331,12 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                             return this.filter(function (relativePath, file) {
                                 return !file.dir && regexp.test(relativePath);
                             });
-                        }
-                        else { // text
+                        } else { // text
                             return this.filter(function (relativePath, file) {
                                 return !file.dir && relativePath === name;
                             })[0] || null;
                         }
-                    }
-                    else { // more than one argument : we have data !
+                    } else { // more than one argument : we have data !
                         name = this.root + name;
                         fileAdd.call(this, name, data, o);
                     }
@@ -1672,22 +1663,19 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
                 if (typeof ArrayBuffer === "undefined") {
                     exports.blob = false;
-                }
-                else {
+                } else {
                     var buffer = new ArrayBuffer(0);
                     try {
                         exports.blob = new Blob([buffer], {
                             type: "application/zip"
                         }).size === 0;
-                    }
-                    catch (e) {
+                    } catch (e) {
                         try {
                             var Builder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
                             var builder = new Builder();
                             builder.append(buffer);
                             exports.blob = builder.getBlob('application/zip').size === 0;
-                        }
-                        catch (e) {
+                        } catch (e) {
                             exports.blob = false;
                         }
                     }
@@ -2039,8 +2027,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                     return new Blob([buffer], {
                         type: mimeType
                     });
-                }
-                catch (e) {
+                } catch (e) {
 
                     try {
                         // deprecated, browser only, old way
@@ -2048,8 +2035,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                         var builder = new Builder();
                         builder.append(buffer);
                         return builder.getBlob(mimeType);
-                    }
-                    catch (e) {
+                    } catch (e) {
 
                         // well, fuck ?!
                         throw new Error("Bug : can't construct the Blob.");
@@ -2128,13 +2114,11 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                     try {
                         if (type === "array" || type === "nodebuffer") {
                             result.push(String.fromCharCode.apply(null, array.slice(k, Math.min(k + chunk, len))));
-                        }
-                        else {
+                        } else {
                             result.push(String.fromCharCode.apply(null, array.subarray(k, Math.min(k + chunk, len))));
                         }
                         k += chunk;
-                    }
-                    catch (e) {
+                    } catch (e) {
                         chunk = Math.floor(chunk / 2);
                     }
                 }
@@ -2546,11 +2530,9 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                     var type = utils.getTypeOf(data);
                     if (type === "string" && !support.uint8array) {
                         this.reader = new StringReader(data, this.loadOptions.optimizedBinaryString);
-                    }
-                    else if (type === "nodebuffer") {
+                    } else if (type === "nodebuffer") {
                         this.reader = new NodeBufferReader(data);
-                    }
-                    else {
+                    } else {
                         this.reader = new Uint8ArrayReader(utils.transformTo("uint8array", data));
                     }
                 },
@@ -3044,9 +3026,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
                 if (opt.raw && (opt.windowBits > 0)) {
                     opt.windowBits = -opt.windowBits;
-                }
-
-                else if (opt.gzip && (opt.windowBits > 0) && (opt.windowBits < 16)) {
+                } else if (opt.gzip && (opt.windowBits > 0) && (opt.windowBits < 16)) {
                     opt.windowBits += 16;
                 }
 
@@ -3132,8 +3112,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                         strm.next_out = 0;
                         strm.avail_out = chunkSize;
                     }
-                    status = zlib_deflate.deflate(strm, _mode);
-                    /* no bad return value */
+                    status = zlib_deflate.deflate(strm, _mode);    /* no bad return value */
 
                     if (status !== Z_STREAM_END && status !== Z_OK) {
                         this.onEnd(status);
@@ -3489,8 +3468,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                         strm.avail_out = chunkSize;
                     }
 
-                    status = zlib_inflate.inflate(strm, c.Z_NO_FLUSH);
-                    /* no bad return value */
+                    status = zlib_inflate.inflate(strm, c.Z_NO_FLUSH);    /* no bad return value */
 
                     if (status !== c.Z_STREAM_END && status !== c.Z_OK) {
                         this.onEnd(status);
@@ -3688,7 +3666,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                         continue;
                     }
 
-                    if (typeof(source) !== 'object') {
+                    if (typeof (source) !== 'object') {
                         throw new TypeError(source + 'must be non-object');
                     }
 
@@ -4220,14 +4198,10 @@ https://github.com/nodeca/pako/blob/master/LICENSE
             var BUSY_STATE = 113;
             var FINISH_STATE = 666;
 
-            var BS_NEED_MORE = 1;
-            /* block not completed, need more input or more output */
-            var BS_BLOCK_DONE = 2;
-            /* block flush performed */
-            var BS_FINISH_STARTED = 3;
-            /* finish started, need only more output at next deflate */
-            var BS_FINISH_DONE = 4;
-            /* finish done, accept no more input or output */
+            var BS_NEED_MORE = 1; /* block not completed, need more input or more output */
+            var BS_BLOCK_DONE = 2; /* block flush performed */
+            var BS_FINISH_STARTED = 3; /* finish started, need only more output at next deflate */
+            var BS_FINISH_DONE = 4; /* finish done, accept no more input or output */
 
             var OS_CODE = 0x03; // Unix :) . Don't detect, use this default.
 
@@ -4325,9 +4299,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                 utils.arraySet(buf, strm.input, strm.next_in, len, start);
                 if (strm.state.wrap === 1) {
                     strm.adler = adler32(strm.adler, buf, len, start);
-                }
-
-                else if (strm.state.wrap === 2) {
+                } else if (strm.state.wrap === 2) {
                     strm.adler = crc32(strm.adler, buf, len, start);
                 }
 
@@ -4348,18 +4320,12 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  * OUT assertion: the match length is not greater than s->lookahead.
  */
             function longest_match(s, cur_match) {
-                var chain_length = s.max_chain_length;
-                /* max hash chain length */
-                var scan = s.strstart;
-                /* current string */
-                var match;
-                /* matched string */
-                var len;
-                /* length of current match */
-                var best_len = s.prev_length;
-                /* best match length so far */
-                var nice_match = s.nice_match;
-                /* stop if match long enough */
+                var chain_length = s.max_chain_length;      /* max hash chain length */
+                var scan = s.strstart; /* current string */
+                var match;                       /* matched string */
+                var len;                           /* length of current match */
+                var best_len = s.prev_length;              /* best match length so far */
+                var nice_match = s.nice_match;             /* stop if match long enough */
                 var limit = (s.strstart > (s.w_size - MIN_LOOKAHEAD)) ?
                     s.strstart - (s.w_size - MIN_LOOKAHEAD) : 0/*NIL*/;
 
@@ -4723,10 +4689,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  * matches. It is used only for the fast compression options.
  */
             function deflate_fast(s, flush) {
-                var hash_head;
-                /* head of the hash chain */
-                var bflush;
-                /* set if current block must be flushed */
+                var hash_head;        /* head of the hash chain */
+                var bflush;           /* set if current block must be flushed */
 
                 for (; ;) {
                     /* Make sure that we always have enough lookahead, except
@@ -4740,8 +4704,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                             return BS_NEED_MORE;
                         }
                         if (s.lookahead === 0) {
-                            break;
-                            /* flush the current block */
+                            break; /* flush the current block */
                         }
                     }
 
@@ -4781,8 +4744,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
        * is not too large. This saves time but degrades compression.
        */
                         if (s.match_length <= s.max_lazy_match/*max_insert_length*/ && s.lookahead >= MIN_MATCH) {
-                            s.match_length--;
-                            /* string at strstart already in table */
+                            s.match_length--; /* string at strstart already in table */
                             do {
                                 s.strstart++;
                                 /*** INSERT_STRING(s, s.strstart, hash_head); ***/
@@ -4854,10 +4816,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  * no better match at the next window position.
  */
             function deflate_slow(s, flush) {
-                var hash_head;
-                /* head of hash chain */
-                var bflush;
-                /* set if current block must be flushed */
+                var hash_head;          /* head of hash chain */
+                var bflush;              /* set if current block must be flushed */
 
                 var max_insert;
 
@@ -4875,8 +4835,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                         }
                         if (s.lookahead === 0) {
                             break;
-                        }
-                        /* flush the current block */
+                        } /* flush the current block */
                     }
 
                     /* Insert the string window[strstart .. strstart+2] in the
@@ -5021,12 +4980,9 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  * deflate switches away from Z_RLE.)
  */
             function deflate_rle(s, flush) {
-                var bflush;
-                /* set if current block must be flushed */
-                var prev;
-                /* byte at distance one to match */
-                var scan, strend;
-                /* scan goes up to strend for length of run */
+                var bflush;            /* set if current block must be flushed */
+                var prev;              /* byte at distance one to match */
+                var scan, strend;      /* scan goes up to strend for length of run */
 
                 var _win = s.window;
 
@@ -5042,8 +4998,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                         }
                         if (s.lookahead === 0) {
                             break;
-                        }
-                        /* flush the current block */
+                        } /* flush the current block */
                     }
 
                     /* See how many times the previous byte repeats */
@@ -5122,8 +5077,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  * (It will be regenerated if this run of deflate switches away from Huffman.)
  */
             function deflate_huff(s, flush) {
-                var bflush;
-                /* set if current block must be flushed */
+                var bflush;             /* set if current block must be flushed */
 
                 for (; ;) {
                     /* Make sure that we have a literal to write. */
@@ -5133,8 +5087,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                             if (flush === Z_NO_FLUSH) {
                                 return BS_NEED_MORE;
                             }
-                            break;
-                            /* flush the current block */
+                            break;      /* flush the current block */
                         }
                     }
 
@@ -5192,16 +5145,16 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
             configuration_table = [
                 /*      good lazy nice chain */
-                new Config(0, 0, 0, 0, deflate_stored), /* 0 store only */
-                new Config(4, 4, 8, 4, deflate_fast), /* 1 max speed, no lazy matches */
-                new Config(4, 5, 16, 8, deflate_fast), /* 2 */
-                new Config(4, 6, 32, 32, deflate_fast), /* 3 */
+                new Config(0, 0, 0, 0, deflate_stored),          /* 0 store only */
+                new Config(4, 4, 8, 4, deflate_fast),            /* 1 max speed, no lazy matches */
+                new Config(4, 5, 16, 8, deflate_fast),           /* 2 */
+                new Config(4, 6, 32, 32, deflate_fast),          /* 3 */
 
-                new Config(4, 4, 16, 16, deflate_slow), /* 4 lazy matches */
-                new Config(8, 16, 32, 32, deflate_slow), /* 5 */
-                new Config(8, 16, 128, 128, deflate_slow), /* 6 */
-                new Config(8, 32, 128, 256, deflate_slow), /* 7 */
-                new Config(32, 128, 258, 1024, deflate_slow), /* 8 */
+                new Config(4, 4, 16, 16, deflate_slow),          /* 4 lazy matches */
+                new Config(8, 16, 32, 32, deflate_slow),         /* 5 */
+                new Config(8, 16, 128, 128, deflate_slow),       /* 6 */
+                new Config(8, 32, 128, 256, deflate_slow),       /* 7 */
+                new Config(32, 128, 258, 1024, deflate_slow),    /* 8 */
                 new Config(32, 258, 258, 4096, deflate_slow)     /* 9 max compression */
             ];
 
@@ -5233,35 +5186,21 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 
             function DeflateState() {
-                this.strm = null;
-                /* pointer back to this zlib stream */
-                this.status = 0;
-                /* as the name implies */
-                this.pending_buf = null;
-                /* output still pending */
-                this.pending_buf_size = 0;
-                /* size of pending_buf */
-                this.pending_out = 0;
-                /* next pending byte to output to the stream */
-                this.pending = 0;
-                /* nb of bytes in the pending buffer */
-                this.wrap = 0;
-                /* bit 0 true for zlib, bit 1 true for gzip */
-                this.gzhead = null;
-                /* gzip header information to write */
-                this.gzindex = 0;
-                /* where in extra, name, or comment */
-                this.method = Z_DEFLATED;
-                /* can only be DEFLATED */
-                this.last_flush = -1;
-                /* value of flush param for previous deflate call */
+                this.strm = null;            /* pointer back to this zlib stream */
+                this.status = 0;            /* as the name implies */
+                this.pending_buf = null;      /* output still pending */
+                this.pending_buf_size = 0;  /* size of pending_buf */
+                this.pending_out = 0;       /* next pending byte to output to the stream */
+                this.pending = 0;           /* nb of bytes in the pending buffer */
+                this.wrap = 0;              /* bit 0 true for zlib, bit 1 true for gzip */
+                this.gzhead = null;         /* gzip header information to write */
+                this.gzindex = 0;           /* where in extra, name, or comment */
+                this.method = Z_DEFLATED; /* can only be DEFLATED */
+                this.last_flush = -1;   /* value of flush param for previous deflate call */
 
-                this.w_size = 0;
-                /* LZ77 window size (32K by default) */
-                this.w_bits = 0;
-                /* log2(w_size)  (8..16) */
-                this.w_mask = 0;
-                /* w_size - 1 */
+                this.w_size = 0;  /* LZ77 window size (32K by default) */
+                this.w_bits = 0;  /* log2(w_size)  (8..16) */
+                this.w_mask = 0;  /* w_size - 1 */
 
                 this.window = null;
                 /* Sliding window. Input bytes are read into the second half of the window,
@@ -5282,17 +5221,12 @@ https://github.com/nodeca/pako/blob/master/LICENSE
    * An index in this array is thus a window index modulo 32K.
    */
 
-                this.head = null;
-                /* Heads of the hash chains or NIL. */
+                this.head = null;   /* Heads of the hash chains or NIL. */
 
-                this.ins_h = 0;
-                /* hash index of string to be inserted */
-                this.hash_size = 0;
-                /* number of elements in hash table */
-                this.hash_bits = 0;
-                /* log2(hash_size) */
-                this.hash_mask = 0;
-                /* hash_size-1 */
+                this.ins_h = 0;       /* hash index of string to be inserted */
+                this.hash_size = 0;   /* number of elements in hash table */
+                this.hash_bits = 0;   /* log2(hash_size) */
+                this.hash_mask = 0;   /* hash_size-1 */
 
                 this.hash_shift = 0;
                 /* Number of bits by which ins_h must be shifted at each input
@@ -5306,18 +5240,12 @@ https://github.com/nodeca/pako/blob/master/LICENSE
    * negative when the window is moved backwards.
    */
 
-                this.match_length = 0;
-                /* length of best match */
-                this.prev_match = 0;
-                /* previous match */
-                this.match_available = 0;
-                /* set if previous match exists */
-                this.strstart = 0;
-                /* start of string to insert */
-                this.match_start = 0;
-                /* start of matching string */
-                this.lookahead = 0;
-                /* number of valid bytes ahead in window */
+                this.match_length = 0;      /* length of best match */
+                this.prev_match = 0;        /* previous match */
+                this.match_available = 0;   /* set if previous match exists */
+                this.strstart = 0;          /* start of string to insert */
+                this.match_start = 0;       /* start of matching string */
+                this.lookahead = 0;         /* number of valid bytes ahead in window */
 
                 this.prev_length = 0;
                 /* Length of the best match at previous step. Matches not greater than this
@@ -5342,16 +5270,13 @@ https://github.com/nodeca/pako/blob/master/LICENSE
    * max_insert_length is used only for compression levels <= 3.
    */
 
-                this.level = 0;
-                /* compression level (1..9) */
-                this.strategy = 0;
-                /* favor or force Huffman coding*/
+                this.level = 0;     /* compression level (1..9) */
+                this.strategy = 0;  /* favor or force Huffman coding*/
 
                 this.good_match = 0;
                 /* Use a faster search when the previous match is longer than this */
 
-                this.nice_match = 0;
-                /* Stop searching when current match exceeds this */
+                this.nice_match = 0; /* Stop searching when current match exceeds this */
 
                 /* used by trees.c: */
 
@@ -5370,26 +5295,20 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                 zero(this.dyn_dtree);
                 zero(this.bl_tree);
 
-                this.l_desc = null;
-                /* desc. for literal tree */
-                this.d_desc = null;
-                /* desc. for distance tree */
-                this.bl_desc = null;
-                /* desc. for bit length tree */
+                this.l_desc = null;         /* desc. for literal tree */
+                this.d_desc = null;         /* desc. for distance tree */
+                this.bl_desc = null;         /* desc. for bit length tree */
 
                 //ush bl_count[MAX_BITS+1];
                 this.bl_count = new utils.Buf16(MAX_BITS + 1);
                 /* number of codes at each bit length for an optimal tree */
 
                 //int heap[2*L_CODES+1];      /* heap used to build the Huffman trees */
-                this.heap = new utils.Buf16(2 * L_CODES + 1);
-                /* heap used to build the Huffman trees */
+                this.heap = new utils.Buf16(2 * L_CODES + 1);  /* heap used to build the Huffman trees */
                 zero(this.heap);
 
-                this.heap_len = 0;
-                /* number of elements in the heap */
-                this.heap_max = 0;
-                /* element of largest frequency */
+                this.heap_len = 0;               /* number of elements in the heap */
+                this.heap_max = 0;               /* element of largest frequency */
                 /* The sons of heap[n] are heap[2*n] and heap[2*n+1]. heap[0] is not used.
    * The same heap array is used to build all trees.
    */
@@ -5399,8 +5318,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                 /* Depth of each subtree used as tie breaker for trees of equal frequency
    */
 
-                this.l_buf = 0;
-                /* buffer index for literals or lengths */
+                this.l_buf = 0;          /* buffer index for literals or lengths */
 
                 this.lit_bufsize = 0;
                 /* Size of match buffer for literals/lengths.  There are 4 reasons for
@@ -5422,8 +5340,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
    *   - I can't count above 4
    */
 
-                this.last_lit = 0;
-                /* running index in l_buf */
+                this.last_lit = 0;      /* running index in l_buf */
 
                 this.d_buf = 0;
                 /* Buffer index for distances. To simplify the code, d_buf and l_buf have
@@ -5431,14 +5348,10 @@ https://github.com/nodeca/pako/blob/master/LICENSE
    * array would be necessary.
    */
 
-                this.opt_len = 0;
-                /* bit length of current block with optimal trees */
-                this.static_len = 0;
-                /* bit length of current block with static trees */
-                this.matches = 0;
-                /* number of string matches in current block */
-                this.insert = 0;
-                /* bytes at end of window left to insert */
+                this.opt_len = 0;       /* bit length of current block with optimal trees */
+                this.static_len = 0;    /* bit length of current block with static trees */
+                this.matches = 0;       /* number of string matches in current block */
+                this.insert = 0;        /* bytes at end of window left to insert */
 
 
                 this.bi_buf = 0;
@@ -5524,11 +5437,8 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                 if (windowBits < 0) { /* suppress zlib wrapper */
                     wrap = 0;
                     windowBits = -windowBits;
-                }
-
-                else if (windowBits > 15) {
-                    wrap = 2;
-                    /* write gzip wrapper instead */
+                } else if (windowBits > 15) {
+                    wrap = 2;           /* write gzip wrapper instead */
                     windowBits -= 16;
                 }
 
@@ -5568,8 +5478,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                 // Don't need mem init magic for JS.
                 //s.high_water = 0;  /* nothing written to s->window yet */
 
-                s.lit_bufsize = 1 << (memLevel + 6);
-                /* 16K elements by default */
+                s.lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
 
                 s.pending_buf_size = s.lit_bufsize * 4;
                 s.pending_buf = new utils.Buf8(s.pending_buf_size);
@@ -5606,8 +5515,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                     return err(strm, (strm.avail_out === 0) ? Z_BUF_ERROR : Z_STREAM_ERROR);
                 }
 
-                s.strm = strm;
-                /* just in case */
+                s.strm = strm; /* just in case */
                 old_flush = s.last_flush;
                 s.last_flush = flush;
 
@@ -5630,8 +5538,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                                     4 : 0));
                             put_byte(s, OS_CODE);
                             s.status = BUSY_STATE;
-                        }
-                        else {
+                        } else {
                             put_byte(s, (s.gzhead.text ? 1 : 0) +
                                 (s.gzhead.hcrc ? 2 : 0) +
                                 (!s.gzhead.extra ? 0 : 4) +
@@ -5656,8 +5563,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                             s.gzindex = 0;
                             s.status = EXTRA_STATE;
                         }
-                    }
-                    else // DEFLATE header
+                    } else // DEFLATE header
                     {
                         var header = (Z_DEFLATED + ((s.w_bits - 8) << 4)) << 8;
                         var level_flags = -1;
@@ -5692,8 +5598,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 //#ifdef GZIP
                 if (s.status === EXTRA_STATE) {
                     if (s.gzhead.extra/* != Z_NULL*/) {
-                        beg = s.pending;
-                        /* start of bytes to update crc */
+                        beg = s.pending;  /* start of bytes to update crc */
 
                         while (s.gzindex < (s.gzhead.extra.length & 0xffff)) {
                             if (s.pending === s.pending_buf_size) {
@@ -5716,15 +5621,13 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                             s.gzindex = 0;
                             s.status = NAME_STATE;
                         }
-                    }
-                    else {
+                    } else {
                         s.status = NAME_STATE;
                     }
                 }
                 if (s.status === NAME_STATE) {
                     if (s.gzhead.name/* != Z_NULL*/) {
-                        beg = s.pending;
-                        /* start of bytes to update crc */
+                        beg = s.pending;  /* start of bytes to update crc */
                         //int val;
 
                         do {
@@ -5755,15 +5658,13 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                             s.gzindex = 0;
                             s.status = COMMENT_STATE;
                         }
-                    }
-                    else {
+                    } else {
                         s.status = COMMENT_STATE;
                     }
                 }
                 if (s.status === COMMENT_STATE) {
                     if (s.gzhead.comment/* != Z_NULL*/) {
-                        beg = s.pending;
-                        /* start of bytes to update crc */
+                        beg = s.pending;  /* start of bytes to update crc */
                         //int val;
 
                         do {
@@ -5793,8 +5694,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                         if (val === 0) {
                             s.status = HCRC_STATE;
                         }
-                    }
-                    else {
+                    } else {
                         s.status = HCRC_STATE;
                     }
                 }
@@ -5809,8 +5709,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                             strm.adler = 0; //crc32(0L, Z_NULL, 0);
                             s.status = BUSY_STATE;
                         }
-                    }
-                    else {
+                    } else {
                         s.status = BUSY_STATE;
                     }
                 }
@@ -5872,16 +5771,14 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                     if (bstate === BS_BLOCK_DONE) {
                         if (flush === Z_PARTIAL_FLUSH) {
                             trees._tr_align(s);
-                        }
-                        else if (flush !== Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
+                        } else if (flush !== Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
 
                             trees._tr_stored_block(s, 0, 0, false);
                             /* For a full flush, this empty block will be recognized
          * as a special marker by inflate_sync().
          */
                             if (flush === Z_FULL_FLUSH) {
-                                /*** CLEAR_HASH(s); ***/
-                                /* forget history */
+                                /*** CLEAR_HASH(s); ***/             /* forget history */
                                 zero(s.head); // Fill with NIL (= 0);
 
                                 if (s.lookahead === 0) {
@@ -5893,8 +5790,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                         }
                         flush_pending(strm);
                         if (strm.avail_out === 0) {
-                            s.last_flush = -1;
-                            /* avoid BUF_ERROR at next call, see above */
+                            s.last_flush = -1; /* avoid BUF_ERROR at next call, see above */
                             return Z_OK;
                         }
                     }
@@ -5919,8 +5815,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
                     put_byte(s, (strm.total_in >> 8) & 0xff);
                     put_byte(s, (strm.total_in >> 16) & 0xff);
                     put_byte(s, (strm.total_in >> 24) & 0xff);
-                }
-                else {
+                } else {
                     putShortMSB(s, strm.adler >>> 16);
                     putShortMSB(s, strm.adler & 0xffff);
                 }
@@ -6038,10 +5933,8 @@ exports.deflateTune = deflateTune;
             'use strict';
 
 // See state defs from inflate.js
-            var BAD = 30;
-            /* got a data error -- remain here until reset */
-            var TYPE = 12;
-            /* i: waiting for type bits, including last-flag bit */
+            var BAD = 30;       /* got a data error -- remain here until reset */
+            var TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
 
             /*
    Decode literal, length, and distance codes and write out the resulting
@@ -6080,51 +5973,30 @@ exports.deflateTune = deflateTune;
  */
             module.exports = function inflate_fast(strm, start) {
                 var state;
-                var _in;
-                /* local strm.input */
-                var last;
-                /* have enough input while in < last */
-                var _out;
-                /* local strm.output */
-                var beg;
-                /* inflate()'s initial strm.output */
-                var end;
-                /* while out < end, enough space available */
+                var _in;                    /* local strm.input */
+                var last;                   /* have enough input while in < last */
+                var _out;                   /* local strm.output */
+                var beg;                    /* inflate()'s initial strm.output */
+                var end;                    /* while out < end, enough space available */
 //#ifdef INFLATE_STRICT
-                var dmax;
-                /* maximum distance from zlib header */
+                var dmax;                   /* maximum distance from zlib header */
 //#endif
-                var wsize;
-                /* window size or zero if not using window */
-                var whave;
-                /* valid bytes in the window */
-                var wnext;
-                /* window write index */
-                var window;
-                /* allocated sliding window, if wsize != 0 */
-                var hold;
-                /* local strm.hold */
-                var bits;
-                /* local strm.bits */
-                var lcode;
-                /* local strm.lencode */
-                var dcode;
-                /* local strm.distcode */
-                var lmask;
-                /* mask for first level of length codes */
-                var dmask;
-                /* mask for first level of distance codes */
-                var here;
-                /* retrieved table entry */
-                var op;
-                /* code bits, operation, extra bits, or */
+                var wsize;                  /* window size or zero if not using window */
+                var whave;                  /* valid bytes in the window */
+                var wnext;                  /* window write index */
+                var window;                 /* allocated sliding window, if wsize != 0 */
+                var hold;                   /* local strm.hold */
+                var bits;                   /* local strm.bits */
+                var lcode;                  /* local strm.lencode */
+                var dcode;                  /* local strm.distcode */
+                var lmask;                  /* mask for first level of length codes */
+                var dmask;                  /* mask for first level of distance codes */
+                var here;                   /* retrieved table entry */
+                var op;                     /* code bits, operation, extra bits, or */
                 /*  window position, window bytes to copy */
-                var len;
-                /* match length, unused bytes */
-                var dist;
-                /* match distance */
-                var from;
-                /* where to copy match from */
+                var len;                    /* match length, unused bytes */
+                var dist;                   /* match distance */
+                var from;                   /* where to copy match from */
                 var from_source;
 
 
@@ -6180,11 +6052,9 @@ exports.deflateTune = deflateTune;
                                     //        "inflate:         literal '%c'\n" :
                                     //        "inflate:         literal 0x%02x\n", here.val));
                                     output[_out++] = here & 0xffff/*here.val*/;
-                                }
-                                else if (op & 16) {                     /* length base */
+                                } else if (op & 16) {                     /* length base */
                                     len = here & 0xffff/*here.val*/;
-                                    op &= 15;
-                                    /* number of extra bits */
+                                    op &= 15;                           /* number of extra bits */
                                     if (op) {
                                         if (bits < op) {
                                             hold += input[_in++] << bits;
@@ -6212,8 +6082,7 @@ exports.deflateTune = deflateTune;
 
                                             if (op & 16) {                      /* distance base */
                                                 dist = here & 0xffff/*here.val*/;
-                                                op &= 15;
-                                                /* number of extra bits */
+                                                op &= 15;                       /* number of extra bits */
                                                 if (bits < op) {
                                                     hold += input[_in++] << bits;
                                                     bits += 8;
@@ -6233,11 +6102,9 @@ exports.deflateTune = deflateTune;
                                                 hold >>>= op;
                                                 bits -= op;
                                                 //Tracevv((stderr, "inflate:         distance %u\n", dist));
-                                                op = _out - beg;
-                                                /* max distance in output */
+                                                op = _out - beg;                /* max distance in output */
                                                 if (dist > op) {                /* see if copy from window */
-                                                    op = dist - op;
-                                                    /* distance back in window */
+                                                    op = dist - op;               /* distance back in window */
                                                     if (op > whave) {
                                                         if (state.sane) {
                                                             strm.msg = 'invalid distance too far back';
@@ -6276,12 +6143,10 @@ exports.deflateTune = deflateTune;
                                                             do {
                                                                 output[_out++] = window[from++];
                                                             } while (--op);
-                                                            from = _out - dist;
-                                                            /* rest from output */
+                                                            from = _out - dist;  /* rest from output */
                                                             from_source = output;
                                                         }
-                                                    }
-                                                    else if (wnext < op) {      /* wrap around window */
+                                                    } else if (wnext < op) {      /* wrap around window */
                                                         from += wsize + wnext - op;
                                                         op -= wnext;
                                                         if (op < len) {         /* some from end of window */
@@ -6296,21 +6161,18 @@ exports.deflateTune = deflateTune;
                                                                 do {
                                                                     output[_out++] = window[from++];
                                                                 } while (--op);
-                                                                from = _out - dist;
-                                                                /* rest from output */
+                                                                from = _out - dist;      /* rest from output */
                                                                 from_source = output;
                                                             }
                                                         }
-                                                    }
-                                                    else {                      /* contiguous in window */
+                                                    } else {                      /* contiguous in window */
                                                         from += wnext - op;
                                                         if (op < len) {         /* some from window */
                                                             len -= op;
                                                             do {
                                                                 output[_out++] = window[from++];
                                                             } while (--op);
-                                                            from = _out - dist;
-                                                            /* rest from output */
+                                                            from = _out - dist;  /* rest from output */
                                                             from_source = output;
                                                         }
                                                     }
@@ -6326,10 +6188,8 @@ exports.deflateTune = deflateTune;
                                                             output[_out++] = from_source[from++];
                                                         }
                                                     }
-                                                }
-                                                else {
-                                                    from = _out - dist;
-                                                    /* copy direct from output */
+                                                } else {
+                                                    from = _out - dist;          /* copy direct from output */
                                                     do {                        /* minimum length is three */
                                                         output[_out++] = output[from++];
                                                         output[_out++] = output[from++];
@@ -6343,12 +6203,10 @@ exports.deflateTune = deflateTune;
                                                         }
                                                     }
                                                 }
-                                            }
-                                            else if ((op & 64) === 0) {          /* 2nd level distance code */
+                                            } else if ((op & 64) === 0) {          /* 2nd level distance code */
                                                 here = dcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
                                                 continue;
-                                            }
-                                            else {
+                                            } else {
                                                 strm.msg = 'invalid distance code';
                                                 state.mode = BAD;
                                                 break top;
@@ -6356,17 +6214,14 @@ exports.deflateTune = deflateTune;
 
                                             break; // need to emulate goto via "continue"
                                         }
-                                }
-                                else if ((op & 64) === 0) {              /* 2nd level length code */
+                                } else if ((op & 64) === 0) {              /* 2nd level length code */
                                     here = lcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
                                     continue;
-                                }
-                                else if (op & 32) {                     /* end-of-block */
+                                } else if (op & 32) {                     /* end-of-block */
                                     //Tracevv((stderr, "inflate:         end of block\n"));
                                     state.mode = TYPE;
                                     break top;
-                                }
-                                else {
+                                } else {
                                     strm.msg = 'invalid literal/length code';
                                     state.mode = BAD;
                                     break top;
@@ -6442,70 +6297,38 @@ exports.deflateTune = deflateTune;
             /* ===========================================================================*/
 
 
-            var HEAD = 1;
-            /* i: waiting for magic header */
-            var FLAGS = 2;
-            /* i: waiting for method and flags (gzip) */
-            var TIME = 3;
-            /* i: waiting for modification time (gzip) */
-            var OS = 4;
-            /* i: waiting for extra flags and operating system (gzip) */
-            var EXLEN = 5;
-            /* i: waiting for extra length (gzip) */
-            var EXTRA = 6;
-            /* i: waiting for extra bytes (gzip) */
-            var NAME = 7;
-            /* i: waiting for end of file name (gzip) */
-            var COMMENT = 8;
-            /* i: waiting for end of comment (gzip) */
-            var HCRC = 9;
-            /* i: waiting for header crc (gzip) */
-            var DICTID = 10;
-            /* i: waiting for dictionary check value */
-            var DICT = 11;
-            /* waiting for inflateSetDictionary() call */
-            var TYPE = 12;
-            /* i: waiting for type bits, including last-flag bit */
-            var TYPEDO = 13;
-            /* i: same, but skip check to exit inflate on new block */
-            var STORED = 14;
-            /* i: waiting for stored size (length and complement) */
-            var COPY_ = 15;
-            /* i/o: same as COPY below, but only first time in */
-            var COPY = 16;
-            /* i/o: waiting for input or output to copy stored block */
-            var TABLE = 17;
-            /* i: waiting for dynamic block table lengths */
-            var LENLENS = 18;
-            /* i: waiting for code length code lengths */
-            var CODELENS = 19;
-            /* i: waiting for length/lit and distance code lengths */
-            var LEN_ = 20;
-            /* i: same as LEN below, but only first time in */
-            var LEN = 21;
-            /* i: waiting for length/lit/eob code */
-            var LENEXT = 22;
-            /* i: waiting for length extra bits */
-            var DIST = 23;
-            /* i: waiting for distance code */
-            var DISTEXT = 24;
-            /* i: waiting for distance extra bits */
-            var MATCH = 25;
-            /* o: waiting for output space to copy string */
-            var LIT = 26;
-            /* o: waiting for output space to write literal */
-            var CHECK = 27;
-            /* i: waiting for 32-bit check value */
-            var LENGTH = 28;
-            /* i: waiting for 32-bit length (gzip) */
-            var DONE = 29;
-            /* finished check, done -- remain here until reset */
-            var BAD = 30;
-            /* got a data error -- remain here until reset */
-            var MEM = 31;
-            /* got an inflate() memory error -- remain here until reset */
-            var SYNC = 32;
-            /* looking for synchronization bytes to restart inflate() */
+            var HEAD = 1;       /* i: waiting for magic header */
+            var FLAGS = 2;      /* i: waiting for method and flags (gzip) */
+            var TIME = 3;       /* i: waiting for modification time (gzip) */
+            var OS = 4;         /* i: waiting for extra flags and operating system (gzip) */
+            var EXLEN = 5;      /* i: waiting for extra length (gzip) */
+            var EXTRA = 6;      /* i: waiting for extra bytes (gzip) */
+            var NAME = 7;       /* i: waiting for end of file name (gzip) */
+            var COMMENT = 8;    /* i: waiting for end of comment (gzip) */
+            var HCRC = 9;       /* i: waiting for header crc (gzip) */
+            var DICTID = 10;    /* i: waiting for dictionary check value */
+            var DICT = 11;      /* waiting for inflateSetDictionary() call */
+            var TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
+            var TYPEDO = 13;    /* i: same, but skip check to exit inflate on new block */
+            var STORED = 14;    /* i: waiting for stored size (length and complement) */
+            var COPY_ = 15;     /* i/o: same as COPY below, but only first time in */
+            var COPY = 16;      /* i/o: waiting for input or output to copy stored block */
+            var TABLE = 17;     /* i: waiting for dynamic block table lengths */
+            var LENLENS = 18;   /* i: waiting for code length code lengths */
+            var CODELENS = 19;  /* i: waiting for length/lit and distance code lengths */
+            var LEN_ = 20;      /* i: same as LEN below, but only first time in */
+            var LEN = 21;       /* i: waiting for length/lit/eob code */
+            var LENEXT = 22;    /* i: waiting for length extra bits */
+            var DIST = 23;      /* i: waiting for distance code */
+            var DISTEXT = 24;   /* i: waiting for distance extra bits */
+            var MATCH = 25;     /* o: waiting for output space to copy string */
+            var LIT = 26;       /* o: waiting for output space to write literal */
+            var CHECK = 27;     /* i: waiting for 32-bit check value */
+            var LENGTH = 28;    /* i: waiting for 32-bit length (gzip) */
+            var DONE = 29;      /* finished check, done -- remain here until reset */
+            var BAD = 30;       /* got a data error -- remain here until reset */
+            var MEM = 31;       /* got an inflate() memory error -- remain here until reset */
+            var SYNC = 32;      /* looking for synchronization bytes to restart inflate() */
 
             /* ===========================================================================*/
 
@@ -6528,96 +6351,61 @@ exports.deflateTune = deflateTune;
 
 
             function InflateState() {
-                this.mode = 0;
-                /* current inflate mode */
-                this.last = false;
-                /* true if processing last block */
-                this.wrap = 0;
-                /* bit 0 true for zlib, bit 1 true for gzip */
-                this.havedict = false;
-                /* true if dictionary provided */
-                this.flags = 0;
-                /* gzip header method and flags (0 if zlib) */
-                this.dmax = 0;
-                /* zlib header max distance (INFLATE_STRICT) */
-                this.check = 0;
-                /* protected copy of check value */
-                this.total = 0;
-                /* protected copy of output count */
+                this.mode = 0;             /* current inflate mode */
+                this.last = false;          /* true if processing last block */
+                this.wrap = 0;              /* bit 0 true for zlib, bit 1 true for gzip */
+                this.havedict = false;      /* true if dictionary provided */
+                this.flags = 0;             /* gzip header method and flags (0 if zlib) */
+                this.dmax = 0;              /* zlib header max distance (INFLATE_STRICT) */
+                this.check = 0;             /* protected copy of check value */
+                this.total = 0;             /* protected copy of output count */
                 // TODO: may be {}
-                this.head = null;
-                /* where to save gzip header information */
+                this.head = null;           /* where to save gzip header information */
 
                 /* sliding window */
-                this.wbits = 0;
-                /* log base 2 of requested window size */
-                this.wsize = 0;
-                /* window size or zero if not using window */
-                this.whave = 0;
-                /* valid bytes in the window */
-                this.wnext = 0;
-                /* window write index */
-                this.window = null;
-                /* allocated sliding window, if needed */
+                this.wbits = 0;             /* log base 2 of requested window size */
+                this.wsize = 0;             /* window size or zero if not using window */
+                this.whave = 0;             /* valid bytes in the window */
+                this.wnext = 0;             /* window write index */
+                this.window = null;         /* allocated sliding window, if needed */
 
                 /* bit accumulator */
-                this.hold = 0;
-                /* input bit accumulator */
-                this.bits = 0;
-                /* number of bits in "in" */
+                this.hold = 0;              /* input bit accumulator */
+                this.bits = 0;              /* number of bits in "in" */
 
                 /* for string and stored block copying */
-                this.length = 0;
-                /* literal or length of data to copy */
-                this.offset = 0;
-                /* distance back to copy string from */
+                this.length = 0;            /* literal or length of data to copy */
+                this.offset = 0;            /* distance back to copy string from */
 
                 /* for table and code decoding */
-                this.extra = 0;
-                /* extra bits needed */
+                this.extra = 0;             /* extra bits needed */
 
                 /* fixed and dynamic code tables */
-                this.lencode = null;
-                /* starting table for length/literal codes */
-                this.distcode = null;
-                /* starting table for distance codes */
-                this.lenbits = 0;
-                /* index bits for lencode */
-                this.distbits = 0;
-                /* index bits for distcode */
+                this.lencode = null;          /* starting table for length/literal codes */
+                this.distcode = null;         /* starting table for distance codes */
+                this.lenbits = 0;           /* index bits for lencode */
+                this.distbits = 0;          /* index bits for distcode */
 
                 /* dynamic table building */
-                this.ncode = 0;
-                /* number of code length code lengths */
-                this.nlen = 0;
-                /* number of length code lengths */
-                this.ndist = 0;
-                /* number of distance code lengths */
-                this.have = 0;
-                /* number of code lengths in lens[] */
-                this.next = null;
-                /* next available space in codes[] */
+                this.ncode = 0;             /* number of code length code lengths */
+                this.nlen = 0;              /* number of length code lengths */
+                this.ndist = 0;             /* number of distance code lengths */
+                this.have = 0;              /* number of code lengths in lens[] */
+                this.next = null;              /* next available space in codes[] */
 
-                this.lens = new utils.Buf16(320);
-                /* temporary storage for code lengths */
-                this.work = new utils.Buf16(288);
-                /* work area for code table building */
+                this.lens = new utils.Buf16(320); /* temporary storage for code lengths */
+                this.work = new utils.Buf16(288); /* work area for code table building */
 
                 /*
    because we don't have pointers in js, we use lencode and distcode directly
    as buffers so we don't need codes
   */
                 //this.codes = new utils.Buf32(ENOUGH);       /* space for code tables */
-                this.lendyn = null;
-                /* dynamic table for length/literal codes (JS specific) */
-                this.distdyn = null;
-                /* dynamic table for distance codes (JS specific) */
-                this.sane = 0;
-                /* if false, allow invalid distance too far */
-                this.back = 0;
-                /* bits back of last unprocessed length/lit */
-                this.was = 0;
-                /* initial length of match */
+                this.lendyn = null;              /* dynamic table for length/literal codes (JS specific) */
+                this.distdyn = null;             /* dynamic table for distance codes (JS specific) */
+                this.sane = 0;                   /* if false, allow invalid distance too far */
+                this.back = 0;                   /* bits back of last unprocessed length/lit */
+                this.was = 0;                    /* initial length of match */
             }
 
             function inflateResetKeep(strm) {
@@ -6628,8 +6416,7 @@ exports.deflateTune = deflateTune;
                 }
                 state = strm.state;
                 strm.total_in = strm.total_out = state.total = 0;
-                strm.msg = '';
-                /*Z_NULL*/
+                strm.msg = ''; /*Z_NULL*/
                 if (state.wrap) {       /* to support ill-conceived Java test suite */
                     strm.adler = state.wrap & 1;
                 }
@@ -6678,8 +6465,7 @@ exports.deflateTune = deflateTune;
                 if (windowBits < 0) {
                     wrap = 0;
                     windowBits = -windowBits;
-                }
-                else {
+                } else {
                     wrap = (windowBits >> 4) + 1;
                     if (windowBits < 48) {
                         windowBits &= 15;
@@ -6817,8 +6603,7 @@ exports.deflateTune = deflateTune;
                     utils.arraySet(state.window, src, end - state.wsize, state.wsize, 0);
                     state.wnext = 0;
                     state.whave = state.wsize;
-                }
-                else {
+                } else {
                     dist = state.wsize - state.wnext;
                     if (dist > copy) {
                         dist = copy;
@@ -6831,8 +6616,7 @@ exports.deflateTune = deflateTune;
                         utils.arraySet(state.window, src, end - copy, copy, 0);
                         state.wnext = copy;
                         state.whave = state.wsize;
-                    }
-                    else {
+                    } else {
                         state.wnext += dist;
                         if (state.wnext === state.wsize) {
                             state.wnext = 0;
@@ -6848,34 +6632,22 @@ exports.deflateTune = deflateTune;
             function inflate(strm, flush) {
                 var state;
                 var input, output;          // input/output buffers
-                var next;
-                /* next input INDEX */
-                var put;
-                /* next output INDEX */
-                var have, left;
-                /* available input and output */
-                var hold;
-                /* bit buffer */
-                var bits;
-                /* bits in bit buffer */
-                var _in, _out;
-                /* save starting available input and output */
-                var copy;
-                /* number of stored or match bytes to copy */
-                var from;
-                /* where to copy match bytes from */
+                var next;                   /* next input INDEX */
+                var put;                    /* next output INDEX */
+                var have, left;             /* available input and output */
+                var hold;                   /* bit buffer */
+                var bits;                   /* bits in bit buffer */
+                var _in, _out;              /* save starting available input and output */
+                var copy;                   /* number of stored or match bytes to copy */
+                var from;                   /* where to copy match bytes from */
                 var from_source;
-                var here = 0;
-                /* current decoding table entry */
+                var here = 0;               /* current decoding table entry */
                 var here_bits, here_op, here_val; // paked "here" denormalized (JS specific)
                 //var last;                   /* parent table entry */
                 var last_bits, last_op, last_val; // paked "last" denormalized (JS specific)
-                var len;
-                /* length to copy for repeats, bits to drop */
-                var ret;
-                /* return code */
-                var hbuf = new utils.Buf8(4);
-                /* buffer for gzip header crc calculation */
+                var len;                    /* length to copy for repeats, bits to drop */
+                var ret;                    /* return code */
+                var hbuf = new utils.Buf8(4);    /* buffer for gzip header crc calculation */
                 var opts;
 
                 var n; // temporary var for NEED_BITS
@@ -6892,8 +6664,7 @@ exports.deflateTune = deflateTune;
                 state = strm.state;
                 if (state.mode === TYPE) {
                     state.mode = TYPEDO;
-                }
-                /* skip check */
+                }    /* skip check */
 
 
                 //--- LOAD() ---
@@ -6944,12 +6715,11 @@ exports.deflateTune = deflateTune;
                                     state.mode = FLAGS;
                                     break;
                                 }
-                                state.flags = 0;
-                                /* expect zlib header */
+                                state.flags = 0;           /* expect zlib header */
                                 if (state.head) {
                                     state.head.done = false;
                                 }
-                                if (!(state.wrap & 1) || /* check if zlib header allowed */
+                                if (!(state.wrap & 1) ||   /* check if zlib header allowed */
                                     (((hold & 0xff)/*BITS(8)*/ << 8) + (hold >> 8)) % 31) {
                                     strm.msg = 'incorrect header check';
                                     state.mode = BAD;
@@ -6967,8 +6737,7 @@ exports.deflateTune = deflateTune;
                                 len = (hold & 0x0f)/*BITS(4)*/ + 8;
                                 if (state.wbits === 0) {
                                     state.wbits = len;
-                                }
-                                else if (len > state.wbits) {
+                                } else if (len > state.wbits) {
                                     strm.msg = 'invalid window size';
                                     state.mode = BAD;
                                     break;
@@ -7104,8 +6873,7 @@ exports.deflateTune = deflateTune;
                                     hold = 0;
                                     bits = 0;
                                     //===//
-                                }
-                                else if (state.head) {
+                                } else if (state.head) {
                                     state.head.extra = null/*Z_NULL*/;
                                 }
                                 state.mode = EXTRA;
@@ -7175,8 +6943,7 @@ exports.deflateTune = deflateTune;
                                     if (len) {
                                         break inf_leave;
                                     }
-                                }
-                                else if (state.head) {
+                                } else if (state.head) {
                                     state.head.name = null;
                                 }
                                 state.length = 0;
@@ -7204,8 +6971,7 @@ exports.deflateTune = deflateTune;
                                     if (len) {
                                         break inf_leave;
                                     }
-                                }
-                                else if (state.head) {
+                                } else if (state.head) {
                                     state.head.comment = null;
                                 }
                                 state.mode = HCRC;
@@ -7312,8 +7078,7 @@ exports.deflateTune = deflateTune;
                                         fixedtables(state);
                                         //Tracev((stderr, "inflate:     fixed codes block%s\n",
                                         //        state.last ? " (last)" : ""));
-                                        state.mode = LEN_;
-                                        /* decode codes */
+                                        state.mode = LEN_;             /* decode codes */
                                         if (flush === Z_TREES) {
                                             //--- DROPBITS(2) ---//
                                             hold >>>= 2;
@@ -7477,8 +7242,7 @@ exports.deflateTune = deflateTune;
                             case CODELENS:
                                 while (state.have < state.nlen + state.ndist) {
                                     for (; ;) {
-                                        here = state.lencode[hold & ((1 << state.lenbits) - 1)];
-                                        /*BITS(state.lenbits)*/
+                                        here = state.lencode[hold & ((1 << state.lenbits) - 1)];/*BITS(state.lenbits)*/
                                         here_bits = here >>> 24;
                                         here_op = (here >>> 16) & 0xff;
                                         here_val = here & 0xffff;
@@ -7501,8 +7265,7 @@ exports.deflateTune = deflateTune;
                                         bits -= here_bits;
                                         //---//
                                         state.lens[state.have++] = here_val;
-                                    }
-                                    else {
+                                    } else {
                                         if (here_val === 16) {
                                             //=== NEEDBITS(here.bits + 2);
                                             n = here_bits + 2;
@@ -7530,8 +7293,7 @@ exports.deflateTune = deflateTune;
                                             hold >>>= 2;
                                             bits -= 2;
                                             //---//
-                                        }
-                                        else if (here_val === 17) {
+                                        } else if (here_val === 17) {
                                             //=== NEEDBITS(here.bits + 3);
                                             n = here_bits + 3;
                                             while (bits < n) {
@@ -7553,8 +7315,7 @@ exports.deflateTune = deflateTune;
                                             hold >>>= 3;
                                             bits -= 3;
                                             //---//
-                                        }
-                                        else {
+                                        } else {
                                             //=== NEEDBITS(here.bits + 7);
                                             n = here_bits + 7;
                                             while (bits < n) {
@@ -7672,8 +7433,7 @@ exports.deflateTune = deflateTune;
                                 }
                                 state.back = 0;
                                 for (; ;) {
-                                    here = state.lencode[hold & ((1 << state.lenbits) - 1)];
-                                    /*BITS(state.lenbits)*/
+                                    here = state.lencode[hold & ((1 << state.lenbits) - 1)];  /*BITS(state.lenbits)*/
                                     here_bits = here >>> 24;
                                     here_op = (here >>> 16) & 0xff;
                                     here_val = here & 0xffff;
@@ -7772,8 +7532,7 @@ exports.deflateTune = deflateTune;
                             /* falls through */
                             case DIST:
                                 for (; ;) {
-                                    here = state.distcode[hold & ((1 << state.distbits) - 1)];
-                                    /*BITS(state.distbits)*/
+                                    here = state.distcode[hold & ((1 << state.distbits) - 1)];/*BITS(state.distbits)*/
                                     here_bits = here >>> 24;
                                     here_op = (here >>> 16) & 0xff;
                                     here_val = here & 0xffff;
@@ -7895,16 +7654,14 @@ exports.deflateTune = deflateTune;
                                     if (copy > state.wnext) {
                                         copy -= state.wnext;
                                         from = state.wsize - copy;
-                                    }
-                                    else {
+                                    } else {
                                         from = state.wnext - copy;
                                     }
                                     if (copy > state.length) {
                                         copy = state.length;
                                     }
                                     from_source = state.window;
-                                }
-                                else {                              /* copy from output */
+                                } else {                              /* copy from output */
                                     from_source = output;
                                     from = put - state.offset;
                                     copy = state.length;
@@ -8124,23 +7881,23 @@ exports.inflateUndermine = inflateUndermine;
             var LENS = 1;
             var DISTS = 2;
 
-            var lbase = [/* Length codes 257..285 base */
+            var lbase = [ /* Length codes 257..285 base */
                 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
                 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0
             ];
 
-            var lext = [/* Length codes 257..285 extra */
+            var lext = [ /* Length codes 257..285 extra */
                 16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
                 19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78
             ];
 
-            var dbase = [/* Distance codes 0..29 base */
+            var dbase = [ /* Distance codes 0..29 base */
                 1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
                 257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
                 8193, 12289, 16385, 24577, 0, 0
             ];
 
-            var dext = [/* Distance codes 0..29 extra */
+            var dext = [ /* Distance codes 0..29 extra */
                 16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22,
                 23, 23, 24, 24, 25, 25, 26, 26, 27, 27,
                 28, 28, 29, 29, 64, 64
@@ -8150,40 +7907,24 @@ exports.inflateUndermine = inflateUndermine;
                 var bits = opts.bits;
                 //here = opts.here; /* table entry for duplication */
 
-                var len = 0;
-                /* a code's length in bits */
-                var sym = 0;
-                /* index of code symbols */
-                var min = 0, max = 0;
-                /* minimum and maximum code lengths */
-                var root = 0;
-                /* number of index bits for root table */
-                var curr = 0;
-                /* number of index bits for current table */
-                var drop = 0;
-                /* code bits to drop for sub-table */
-                var left = 0;
-                /* number of prefix codes available */
-                var used = 0;
-                /* code entries in table used */
-                var huff = 0;
-                /* Huffman code */
-                var incr;
-                /* for incrementing code, index */
-                var fill;
-                /* index for replicating entries */
-                var low;
-                /* low bits for current root entry */
-                var mask;
-                /* mask for low root bits */
-                var next;
-                /* next available space in table */
-                var base = null;
-                /* base value table to use */
+                var len = 0;               /* a code's length in bits */
+                var sym = 0;               /* index of code symbols */
+                var min = 0, max = 0;          /* minimum and maximum code lengths */
+                var root = 0;              /* number of index bits for root table */
+                var curr = 0;              /* number of index bits for current table */
+                var drop = 0;              /* code bits to drop for sub-table */
+                var left = 0;                   /* number of prefix codes available */
+                var used = 0;              /* code entries in table used */
+                var huff = 0;              /* Huffman code */
+                var incr;              /* for incrementing code, index */
+                var fill;              /* index for replicating entries */
+                var low;               /* low bits for current root entry */
+                var mask;              /* mask for low root bits */
+                var next;             /* next available space in table */
+                var base = null;     /* base value table to use */
                 var base_index = 0;
 //  var shoextra;    /* extra bits table to use */
-                var end;
-                /* use base and extra for symbol > end */
+                var end;                    /* use base and extra for symbol > end */
                 var count = new utils.Buf16(MAXBITS + 1); //[MAXBITS+1];    /* number of codes of each length */
                 var offs = new utils.Buf16(MAXBITS + 1); //[MAXBITS+1];     /* offsets in table for each length */
                 var extra = null;
@@ -8253,8 +7994,7 @@ exports.inflateUndermine = inflateUndermine;
                     table[table_index++] = (1 << 24) | (64 << 16) | 0;
 
                     opts.bits = 1;
-                    return 0;
-                    /* no symbols, but wait for decoding to report error */
+                    return 0;     /* no symbols, but wait for decoding to report error */
                 }
                 for (min = 1; min < max; min++) {
                     if (count[min] !== 0) {
@@ -8272,12 +8012,10 @@ exports.inflateUndermine = inflateUndermine;
                     left -= count[len];
                     if (left < 0) {
                         return -1;
-                    }
-                    /* over-subscribed */
+                    }        /* over-subscribed */
                 }
                 if (left > 0 && (type === CODES || max !== 1)) {
-                    return -1;
-                    /* incomplete set */
+                    return -1;                      /* incomplete set */
                 }
 
                 /* generate offsets into symbol table for each length for sorting */
@@ -8328,8 +8066,7 @@ exports.inflateUndermine = inflateUndermine;
                 // poor man optimization - use if-else instead of switch,
                 // to avoid deopts in old v8
                 if (type === CODES) {
-                    base = extra = work;
-                    /* dummy value--not used */
+                    base = extra = work;    /* dummy value--not used */
                     end = 19;
                 } else if (type === LENS) {
                     base = lbase;
@@ -8344,24 +8081,15 @@ exports.inflateUndermine = inflateUndermine;
                 }
 
                 /* initialize opts for loop */
-                huff = 0;
-                /* starting code */
-                sym = 0;
-                /* starting code symbol */
-                len = min;
-                /* starting code length */
-                next = table_index;
-                /* current table to fill in */
-                curr = root;
-                /* current table index bits */
-                drop = 0;
-                /* current bits to drop from code for index */
-                low = -1;
-                /* trigger new sub-table when len > root */
-                used = 1 << root;
-                /* use root table entries */
-                mask = used - 1;
-                /* mask for comparing low */
+                huff = 0;                   /* starting code */
+                sym = 0;                    /* starting code symbol */
+                len = min;                  /* starting code length */
+                next = table_index;              /* current table to fill in */
+                curr = root;                /* current table index bits */
+                drop = 0;                   /* current bits to drop from code for index */
+                low = -1;                   /* trigger new sub-table when len > root */
+                used = 1 << root;          /* use root table entries */
+                mask = used - 1;            /* mask for comparing low */
 
                 /* check available table space */
                 if ((type === LENS && used > ENOUGH_LENS) ||
@@ -8378,22 +8106,18 @@ exports.inflateUndermine = inflateUndermine;
                     if (work[sym] < end) {
                         here_op = 0;
                         here_val = work[sym];
-                    }
-                    else if (work[sym] > end) {
+                    } else if (work[sym] > end) {
                         here_op = extra[extra_index + work[sym]];
                         here_val = base[base_index + work[sym]];
-                    }
-                    else {
-                        here_op = 32 + 64;
-                        /* end of block */
+                    } else {
+                        here_op = 32 + 64;         /* end of block */
                         here_val = 0;
                     }
 
                     /* replicate for those indices with low len bits equal to huff */
                     incr = 1 << (len - drop);
                     fill = 1 << curr;
-                    min = fill;
-                    /* save offset to next table */
+                    min = fill;                 /* save offset to next table */
                     do {
                         fill -= incr;
                         table[next + (huff >> drop) + fill] = (here_bits << 24) | (here_op << 16) | here_val | 0;
@@ -8428,8 +8152,7 @@ exports.inflateUndermine = inflateUndermine;
                         }
 
                         /* increment past last table */
-                        next += min;
-                        /* here min is 1 << curr */
+                        next += min;            /* here min is 1 << curr */
 
                         /* determine length of next table */
                         curr = len - drop;
@@ -8480,14 +8203,14 @@ exports.inflateUndermine = inflateUndermine;
             'use strict';
 
             module.exports = {
-                '2': 'need dictionary', /* Z_NEED_DICT       2  */
-                '1': 'stream end', /* Z_STREAM_END      1  */
-                '0': '', /* Z_OK              0  */
-                '-1': 'file error', /* Z_ERRNO         (-1) */
-                '-2': 'stream error', /* Z_STREAM_ERROR  (-2) */
-                '-3': 'data error', /* Z_DATA_ERROR    (-3) */
+                '2': 'need dictionary',     /* Z_NEED_DICT       2  */
+                '1': 'stream end',          /* Z_STREAM_END      1  */
+                '0': '',                    /* Z_OK              0  */
+                '-1': 'file error',          /* Z_ERRNO         (-1) */
+                '-2': 'stream error',        /* Z_STREAM_ERROR  (-2) */
+                '-3': 'data error',          /* Z_DATA_ERROR    (-3) */
                 '-4': 'insufficient memory', /* Z_MEM_ERROR     (-4) */
-                '-5': 'buffer error', /* Z_BUF_ERROR     (-5) */
+                '-5': 'buffer error',        /* Z_BUF_ERROR     (-5) */
                 '-6': 'incompatible version' /* Z_VERSION_ERROR (-6) */
             };
         }, {}],
@@ -8583,13 +8306,13 @@ exports.inflateUndermine = inflateUndermine;
             var REPZ_11_138 = 18;
             /* repeat a zero length 11-138 times  (7 bits of repeat count) */
 
-            var extra_lbits = /* extra bits for each length code */
+            var extra_lbits =   /* extra bits for each length code */
                 [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0];
 
-            var extra_dbits = /* extra bits for each distance code */
+            var extra_dbits =   /* extra bits for each distance code */
                 [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13];
 
-            var extra_blbits = /* extra bits for each bit length code */
+            var extra_blbits =  /* extra bits for each bit length code */
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 7];
 
             var bl_order =
@@ -8604,8 +8327,7 @@ exports.inflateUndermine = inflateUndermine;
 
 // We pre-fill arrays with 0 to avoid uninitialized gaps
 
-            var DIST_CODE_LEN = 512;
-            /* see definition of array dist_code below */
+            var DIST_CODE_LEN = 512; /* see definition of array dist_code below */
 
 // !!!! Use flat array insdead of structure, Freq = i*2, Len = i*2+1
             var static_ltree = new Array((L_CODES + 2) * 2);
@@ -8644,16 +8366,11 @@ exports.inflateUndermine = inflateUndermine;
 
             var StaticTreeDesc = function (static_tree, extra_bits, extra_base, elems, max_length) {
 
-                this.static_tree = static_tree;
-                /* static tree or NULL */
-                this.extra_bits = extra_bits;
-                /* extra bits for each code or NULL */
-                this.extra_base = extra_base;
-                /* base index for extra_bits */
-                this.elems = elems;
-                /* max number of elements in the tree */
-                this.max_length = max_length;
-                /* max bit length for the codes */
+                this.static_tree = static_tree;  /* static tree or NULL */
+                this.extra_bits = extra_bits;   /* extra bits for each code or NULL */
+                this.extra_base = extra_base;   /* base index for extra_bits */
+                this.elems = elems;        /* max number of elements in the tree */
+                this.max_length = max_length;   /* max bit length for the codes */
 
                 // show if `static_tree` has data or dummy - needed for monomorphic objects
                 this.has_stree = static_tree && static_tree.length;
@@ -8666,12 +8383,9 @@ exports.inflateUndermine = inflateUndermine;
 
 
             var TreeDesc = function (dyn_tree, stat_desc) {
-                this.dyn_tree = dyn_tree;
-                /* the dynamic tree */
-                this.max_code = 0;
-                /* largest code with non zero frequency */
-                this.stat_desc = stat_desc;
-                /* the corresponding static tree */
+                this.dyn_tree = dyn_tree;     /* the dynamic tree */
+                this.max_code = 0;            /* largest code with non zero frequency */
+                this.stat_desc = stat_desc;   /* the corresponding static tree */
             };
 
 
@@ -8768,18 +8482,12 @@ exports.inflateUndermine = inflateUndermine;
                 var extra = desc.stat_desc.extra_bits;
                 var base = desc.stat_desc.extra_base;
                 var max_length = desc.stat_desc.max_length;
-                var h;
-                /* heap index */
-                var n, m;
-                /* iterate over the tree elements */
-                var bits;
-                /* bit length */
-                var xbits;
-                /* extra bits */
-                var f;
-                /* frequency */
-                var overflow = 0;
-                /* number of elements with bit length too large */
+                var h;              /* heap index */
+                var n, m;           /* iterate over the tree elements */
+                var bits;           /* bit length */
+                var xbits;          /* extra bits */
+                var f;              /* frequency */
+                var overflow = 0;   /* number of elements with bit length too large */
 
                 for (bits = 0; bits <= MAX_BITS; bits++) {
                     s.bl_count[bits] = 0;
@@ -8788,8 +8496,7 @@ exports.inflateUndermine = inflateUndermine;
                 /* In a first pass, compute the optimal bit lengths (which may
    * overflow in the case of the bit length tree).
    */
-                tree[s.heap[s.heap_max] * 2 + 1]/*.Len*/ = 0;
-                /* root of the heap */
+                tree[s.heap[s.heap_max] * 2 + 1]/*.Len*/ = 0; /* root of the heap */
 
                 for (h = s.heap_max + 1; h < HEAP_SIZE; h++) {
                     n = s.heap[h];
@@ -8803,8 +8510,7 @@ exports.inflateUndermine = inflateUndermine;
 
                     if (n > max_code) {
                         continue;
-                    }
-                    /* not a leaf node */
+                    } /* not a leaf node */
 
                     s.bl_count[bits]++;
                     xbits = 0;
@@ -8830,10 +8536,8 @@ exports.inflateUndermine = inflateUndermine;
                     while (s.bl_count[bits] === 0) {
                         bits--;
                     }
-                    s.bl_count[bits]--;
-                    /* move one leaf down the tree */
-                    s.bl_count[bits + 1] += 2;
-                    /* move one overflow item as its brother */
+                    s.bl_count[bits]--;      /* move one leaf down the tree */
+                    s.bl_count[bits + 1] += 2; /* move one overflow item as its brother */
                     s.bl_count[max_length]--;
                     /* The brother of the overflow item also moves one step up,
      * but this does not affect bl_count[max_length]
@@ -8877,14 +8581,10 @@ exports.inflateUndermine = inflateUndermine;
 //    int max_code;              /* largest code with non zero frequency */
 //    ushf *bl_count;            /* number of codes at each bit length */
             {
-                var next_code = new Array(MAX_BITS + 1);
-                /* next code value for each bit length */
-                var code = 0;
-                /* running code value */
-                var bits;
-                /* bit index */
-                var n;
-                /* code index */
+                var next_code = new Array(MAX_BITS + 1); /* next code value for each bit length */
+                var code = 0;              /* running code value */
+                var bits;                  /* bit index */
+                var n;                     /* code index */
 
                 /* The distribution counts are first used to generate the code values
    * without bit reversal.
@@ -8917,16 +8617,11 @@ exports.inflateUndermine = inflateUndermine;
  * Initialize the various 'constant' tables.
  */
             function tr_static_init() {
-                var n;
-                /* iterates over tree elements */
-                var bits;
-                /* bit counter */
-                var length;
-                /* length value */
-                var code;
-                /* code value */
-                var dist;
-                /* distance index */
+                var n;        /* iterates over tree elements */
+                var bits;     /* bit counter */
+                var length;   /* length value */
+                var code;     /* code value */
+                var dist;     /* distance index */
                 var bl_count = new Array(MAX_BITS + 1);
                 /* number of codes at each bit length for an optimal tree */
 
@@ -8966,8 +8661,7 @@ exports.inflateUndermine = inflateUndermine;
                     }
                 }
                 //Assert (dist == 256, "tr_static_init: dist != 256");
-                dist >>= 7;
-                /* from now on, all distances are divided by 128 */
+                dist >>= 7; /* from now on, all distances are divided by 128 */
                 for (; code < D_CODES; code++) {
                     base_dist[code] = dist << 7;
                     for (n = 0; n < (1 << (extra_dbits[code] - 7)); n++) {
@@ -9027,8 +8721,7 @@ exports.inflateUndermine = inflateUndermine;
  * Initialize a new block.
  */
             function init_block(s) {
-                var n;
-                /* iterates over tree elements */
+                var n; /* iterates over tree elements */
 
                 /* Initialize the trees. */
                 for (n = 0; n < L_CODES; n++) {
@@ -9071,8 +8764,7 @@ exports.inflateUndermine = inflateUndermine;
 //unsigned len;     /* its length */
 //int      header;  /* true if block header must be written */
             {
-                bi_windup(s);
-                /* align on byte boundary */
+                bi_windup(s);        /* align on byte boundary */
 
                 if (header) {
                     put_short(s, len);
@@ -9108,8 +8800,7 @@ exports.inflateUndermine = inflateUndermine;
 //    int k;               /* node to move down */
             {
                 var v = s.heap[k];
-                var j = k << 1;
-                /* left son of k */
+                var j = k << 1;  /* left son of k */
                 while (j <= s.heap_len) {
                     /* Set j to the smallest of the two sons: */
                     if (j < s.heap_len &&
@@ -9143,16 +8834,11 @@ exports.inflateUndermine = inflateUndermine;
 //    const ct_data *ltree; /* literal tree */
 //    const ct_data *dtree; /* distance tree */
             {
-                var dist;
-                /* distance of matched string */
-                var lc;
-                /* match length or unmatched char (if dist == 0) */
-                var lx = 0;
-                /* running index in l_buf */
-                var code;
-                /* the code to send */
-                var extra;
-                /* number of extra bits to send */
+                var dist;           /* distance of matched string */
+                var lc;             /* match length or unmatched char (if dist == 0) */
+                var lx = 0;         /* running index in l_buf */
+                var code;           /* the code to send */
+                var extra;          /* number of extra bits to send */
 
                 if (s.last_lit !== 0) {
                     do {
@@ -9161,35 +8847,28 @@ exports.inflateUndermine = inflateUndermine;
                         lx++;
 
                         if (dist === 0) {
-                            send_code(s, lc, ltree);
-                            /* send a literal byte */
+                            send_code(s, lc, ltree); /* send a literal byte */
                             //Tracecv(isgraph(lc), (stderr," '%c' ", lc));
                         } else {
                             /* Here, lc is the match length - MIN_MATCH */
                             code = _length_code[lc];
-                            send_code(s, code + LITERALS + 1, ltree);
-                            /* send the length code */
+                            send_code(s, code + LITERALS + 1, ltree); /* send the length code */
                             extra = extra_lbits[code];
                             if (extra !== 0) {
                                 lc -= base_length[code];
-                                send_bits(s, lc, extra);
-                                /* send the extra length bits */
+                                send_bits(s, lc, extra);       /* send the extra length bits */
                             }
-                            dist--;
-                            /* dist is now the match distance - 1 */
+                            dist--; /* dist is now the match distance - 1 */
                             code = d_code(dist);
                             //Assert (code < D_CODES, "bad d_code");
 
-                            send_code(s, code, dtree);
-                            /* send the distance code */
+                            send_code(s, code, dtree);       /* send the distance code */
                             extra = extra_dbits[code];
                             if (extra !== 0) {
                                 dist -= base_dist[code];
-                                send_bits(s, dist, extra);
-                                /* send the extra distance bits */
+                                send_bits(s, dist, extra);   /* send the extra distance bits */
                             }
-                        }
-                        /* literal or match pair ? */
+                        } /* literal or match pair ? */
 
                         /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
                         //Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
@@ -9218,12 +8897,9 @@ exports.inflateUndermine = inflateUndermine;
                 var stree = desc.stat_desc.static_tree;
                 var has_stree = desc.stat_desc.has_stree;
                 var elems = desc.stat_desc.elems;
-                var n, m;
-                /* iterate over heap elements */
-                var max_code = -1;
-                /* largest code with non zero frequency */
-                var node;
-                /* new node being created */
+                var n, m;          /* iterate over heap elements */
+                var max_code = -1; /* largest code with non zero frequency */
+                var node;          /* new node being created */
 
                 /* Construct the initial heap, with least frequent element in
    * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
@@ -9270,8 +8946,7 @@ exports.inflateUndermine = inflateUndermine;
                 /* Construct the Huffman tree by repeatedly combining the least two
    * frequent nodes.
    */
-                node = elems;
-                /* next internal node of the tree */
+                node = elems;              /* next internal node of the tree */
                 do {
                     //pqremove(s, tree, n);  /* n = node of least frequency */
                     /*** pqremove ***/
@@ -9280,11 +8955,9 @@ exports.inflateUndermine = inflateUndermine;
                     pqdownheap(s, tree, 1/*SMALLEST*/);
                     /***/
 
-                    m = s.heap[1/*SMALLEST*/];
-                    /* m = node of next least frequency */
+                    m = s.heap[1/*SMALLEST*/]; /* m = node of next least frequency */
 
-                    s.heap[--s.heap_max] = n;
-                    /* keep the nodes sorted by frequency */
+                    s.heap[--s.heap_max] = n; /* keep the nodes sorted by frequency */
                     s.heap[--s.heap_max] = m;
 
                     /* Create a new node father of n and m */
@@ -9319,29 +8992,21 @@ exports.inflateUndermine = inflateUndermine;
 //    ct_data *tree;   /* the tree to be scanned */
 //    int max_code;    /* and its largest code of non zero frequency */
             {
-                var n;
-                /* iterates over all tree elements */
-                var prevlen = -1;
-                /* last emitted length */
-                var curlen;
-                /* length of current code */
+                var n;                     /* iterates over all tree elements */
+                var prevlen = -1;          /* last emitted length */
+                var curlen;                /* length of current code */
 
-                var nextlen = tree[0 * 2 + 1]/*.Len*/;
-                /* length of next code */
+                var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
 
-                var count = 0;
-                /* repeat count of the current code */
-                var max_count = 7;
-                /* max repeat count */
-                var min_count = 4;
-                /* min repeat count */
+                var count = 0;             /* repeat count of the current code */
+                var max_count = 7;         /* max repeat count */
+                var min_count = 4;         /* min repeat count */
 
                 if (nextlen === 0) {
                     max_count = 138;
                     min_count = 3;
                 }
-                tree[(max_code + 1) * 2 + 1]/*.Len*/ = 0xffff;
-                /* guard */
+                tree[(max_code + 1) * 2 + 1]/*.Len*/ = 0xffff; /* guard */
 
                 for (n = 0; n <= max_code; n++) {
                     curlen = nextlen;
@@ -9395,25 +9060,17 @@ exports.inflateUndermine = inflateUndermine;
 //    ct_data *tree; /* the tree to be scanned */
 //    int max_code;       /* and its largest code of non zero frequency */
             {
-                var n;
-                /* iterates over all tree elements */
-                var prevlen = -1;
-                /* last emitted length */
-                var curlen;
-                /* length of current code */
+                var n;                     /* iterates over all tree elements */
+                var prevlen = -1;          /* last emitted length */
+                var curlen;                /* length of current code */
 
-                var nextlen = tree[0 * 2 + 1]/*.Len*/;
-                /* length of next code */
+                var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
 
-                var count = 0;
-                /* repeat count of the current code */
-                var max_count = 7;
-                /* max repeat count */
-                var min_count = 4;
-                /* min repeat count */
+                var count = 0;             /* repeat count of the current code */
+                var max_count = 7;         /* max repeat count */
+                var min_count = 4;         /* min repeat count */
 
-                /* tree[max_code+1].Len = -1; */
-                /* guard already set */
+                /* tree[max_code+1].Len = -1; */  /* guard already set */
                 if (nextlen === 0) {
                     max_count = 138;
                     min_count = 3;
@@ -9472,8 +9129,7 @@ exports.inflateUndermine = inflateUndermine;
  * bl_order of the last bit length code to send.
  */
             function build_bl_tree(s) {
-                var max_blindex;
-                /* index of last bit length code of non zero freq */
+                var max_blindex;  /* index of last bit length code of non zero freq */
 
                 /* Determine the bit length frequencies for literal and distance trees */
                 scan_tree(s, s.dyn_ltree, s.l_desc.max_code);
@@ -9512,30 +9168,25 @@ exports.inflateUndermine = inflateUndermine;
 //    deflate_state *s;
 //    int lcodes, dcodes, blcodes; /* number of codes for each tree */
             {
-                var rank;
-                /* index in bl_order */
+                var rank;                    /* index in bl_order */
 
                 //Assert (lcodes >= 257 && dcodes >= 1 && blcodes >= 4, "not enough codes");
                 //Assert (lcodes <= L_CODES && dcodes <= D_CODES && blcodes <= BL_CODES,
                 //        "too many codes");
                 //Tracev((stderr, "\nbl counts: "));
-                send_bits(s, lcodes - 257, 5);
-                /* not +255 as stated in appnote.txt */
+                send_bits(s, lcodes - 257, 5); /* not +255 as stated in appnote.txt */
                 send_bits(s, dcodes - 1, 5);
-                send_bits(s, blcodes - 4, 4);
-                /* not -3 as stated in appnote.txt */
+                send_bits(s, blcodes - 4, 4); /* not -3 as stated in appnote.txt */
                 for (rank = 0; rank < blcodes; rank++) {
                     //Tracev((stderr, "\nbl code %2d ", bl_order[rank]));
                     send_bits(s, s.bl_tree[bl_order[rank] * 2 + 1]/*.Len*/, 3);
                 }
                 //Tracev((stderr, "\nbl tree: sent %ld", s->bits_sent));
 
-                send_tree(s, s.dyn_ltree, lcodes - 1);
-                /* literal tree */
+                send_tree(s, s.dyn_ltree, lcodes - 1); /* literal tree */
                 //Tracev((stderr, "\nlit tree: sent %ld", s->bits_sent));
 
-                send_tree(s, s.dyn_dtree, dcodes - 1);
-                /* distance tree */
+                send_tree(s, s.dyn_dtree, dcodes - 1); /* distance tree */
                 //Tracev((stderr, "\ndist tree: sent %ld", s->bits_sent));
             }
 
@@ -9619,10 +9270,8 @@ exports.inflateUndermine = inflateUndermine;
 //ulg stored_len;   /* length of input block */
 //int last;         /* one if this is the last block for a file */
             {
-                send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);
-                /* send block type */
-                copy_block(s, buf, stored_len, true);
-                /* with header */
+                send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);    /* send block type */
+                copy_block(s, buf, stored_len, true); /* with header */
             }
 
 
@@ -9647,10 +9296,8 @@ exports.inflateUndermine = inflateUndermine;
 //ulg stored_len;   /* length of input block */
 //int last;         /* one if this is the last block for a file */
             {
-                var opt_lenb, static_lenb;
-                /* opt_len and static_len in bytes */
-                var max_blindex = 0;
-                /* index of last bit length code of non zero freq */
+                var opt_lenb, static_lenb;  /* opt_len and static_len in bytes */
+                var max_blindex = 0;        /* index of last bit length code of non zero freq */
 
                 /* Build the Huffman trees unless a stored block is forced */
                 if (s.level > 0) {
@@ -9691,8 +9338,7 @@ exports.inflateUndermine = inflateUndermine;
 
                 } else {
                     // Assert(buf != (char*)0, "lost buf");
-                    opt_lenb = static_lenb = stored_len + 5;
-                    /* force a stored block */
+                    opt_lenb = static_lenb = stored_len + 5; /* force a stored block */
                 }
 
                 if ((stored_len + 4 <= opt_lenb) && (buf !== -1)) {
@@ -9752,8 +9398,7 @@ exports.inflateUndermine = inflateUndermine;
                 } else {
                     s.matches++;
                     /* Here, lc is the match length - MIN_MATCH */
-                    dist--;
-                    /* dist = match distance - 1 */
+                    dist--;             /* dist = match distance - 1 */
                     //Assert((ush)dist < (ush)MAX_DIST(s) &&
                     //       (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
                     //       (ush)d_code(dist) < (ush)D_CODES,  "_tr_tally: bad match");

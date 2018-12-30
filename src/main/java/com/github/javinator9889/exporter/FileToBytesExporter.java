@@ -60,6 +60,7 @@ public class FileToBytesExporter implements Cloneable, Serializable {
     private ArrayList<String> mPath;
     private String mReadData;
     private String mFileSeparator;
+    private boolean mMustOpenSourcePath;
     private final Object lock = new Lock();
 
     /**
@@ -88,28 +89,43 @@ public class FileToBytesExporter implements Cloneable, Serializable {
      * Constructor that uses both {@link #mFilename filename} and {@link #mPath path} as arguments.
      *
      * @param filename source file.
-     * @param paths    list of paths where search for the source file.
+     * @param paths    list of paths where to search for the source file.
      *
      * @see String
      */
     public FileToBytesExporter(String filename, String... paths) {
-        this(filename, new ArrayList<>(Arrays.asList(paths)), null, null);
+        this(filename, false, paths);
     }
 
     /**
-     * Private constructor for cloning of generating a new instance - only visible for this class
+     * Constructor that uses an extra attribute for declaring whether or not the source path will be
+     * used also for searching the file.
      *
-     * @param filename      source file
-     * @param paths         list of paths where search for the source file
-     * @param readData      current read data
-     * @param fileSeparator current used file separator
+     * @param filename           source file.
+     * @param mustOpenSourcePath {@code true} if the source path is included while reading the
+     *                           file.
+     * @param paths              list of paths where to search for the source file.
+     */
+    public FileToBytesExporter(String filename, boolean mustOpenSourcePath, String... paths) {
+        this(filename, new ArrayList<>(Arrays.asList(paths)), null, null, mustOpenSourcePath);
+    }
+
+    /**
+     * Private constructor for cloning or generating a new instance - only visible for this class.
+     *
+     * @param filename           source file.
+     * @param paths              list of paths where search for the source file.
+     * @param readData           current read data.
+     * @param fileSeparator      current used file separator.
+     * @param mustOpenSourcePath whether the source path should be used for searching files.
      */
     private FileToBytesExporter(String filename, ArrayList<String> paths, String readData,
-                                String fileSeparator) {
+                                String fileSeparator, boolean mustOpenSourcePath) {
         mFilename = filename;
         mPath = paths;
         mReadData = readData;
         mFileSeparator = fileSeparator;
+        mMustOpenSourcePath = mustOpenSourcePath;
     }
 
     /**
@@ -128,6 +144,15 @@ public class FileToBytesExporter implements Cloneable, Serializable {
      */
     public void setPaths(String... paths) {
         mPath = new ArrayList<>(Arrays.asList(paths));
+    }
+
+    /**
+     * Updates the policy for reading also the source directory for the provided filename.
+     *
+     * @param mustOpenSourcePath whether the source directory is used or not.
+     */
+    public void setMustOpenSourcePath(boolean mustOpenSourcePath) {
+        mMustOpenSourcePath = mustOpenSourcePath;
     }
 
     /**
@@ -203,15 +228,23 @@ public class FileToBytesExporter implements Cloneable, Serializable {
     public void readSource(boolean mustOpenAllFiles, final String fileSeparator)
             throws IOException {
         boolean isAnyPathProvided = mPath.size() > 0;
-        File srcDir = Paths.get(".").toFile();
-        ArrayList<File> filesInSrcDir = Glob.match(srcDir, mFilename, mustOpenAllFiles);
-        int foundFilesInSrc = filesInSrcDir != null ? filesInSrcDir.size() : 0;
-        if (foundFilesInSrc == 0 && !isAnyPathProvided)
-            throw new FileNotFoundException(String.format("The file (or glob) \"%s\" was not " +
-                    "found at any provided dir", mFilename));
+        int foundFilesInSrc = 0;
+        ArrayList<File> filesInSrcDir = new ArrayList<>(0);
+        if (mMustOpenSourcePath) {
+            File srcDir = Paths.get(".").toFile();
+            filesInSrcDir = Glob.match(srcDir, mFilename, mustOpenAllFiles);
+            foundFilesInSrc = filesInSrcDir != null ? filesInSrcDir.size() : 0;
+            if (foundFilesInSrc == 0 && !isAnyPathProvided)
+                throw new FileNotFoundException(String.format("The file (or glob) \"%s\" was not " +
+                        "found at any provided dir", mFilename));
+        } else if (!isAnyPathProvided) {
+            throw new InvalidPathException("You did not provide any path and disabled looking for" +
+                    " the file at the source directory");
+        }
         final ArrayList<File> allFoundFiles = foundFilesInSrc == 0 ?
                 new ArrayList<>() :
                 new ArrayList<>(filesInSrcDir);
+        allFoundFiles.trimToSize();
         if (allFoundFiles.size() > 1 && !mustOpenAllFiles)
             throw new MultipleFilesFoundError("Multiple files found at the source directory");
         if (isAnyPathProvided) {
@@ -263,6 +296,26 @@ public class FileToBytesExporter implements Cloneable, Serializable {
         });
         mReadData = results.toString();
         mFileSeparator = allFoundFiles.size() > 1 ? fileSeparator : null;
+    }
+
+    /**
+     * Reads the provided file and returns the {@link String} that contains its content.
+     *
+     * @param source the file that will be read.
+     *
+     * @return {@code String} with the file data.
+     *
+     * @throws IOException if the file does not exists or there is any error while reading it.
+     */
+    public static String readSource(File source) throws IOException {
+        StringBuilder result = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(source))) {
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                result.append(currentLine).append("\n");
+            }
+        }
+        return result.toString();
     }
 
     /**
@@ -322,8 +375,8 @@ public class FileToBytesExporter implements Cloneable, Serializable {
      * necessary directories in order to work as expected.
      *
      * @param destination subclass of {@link OutputStream} which contains the output file that can
-     *                    be used at {@link ObjectOutputStream#ObjectOutputStream()} constructor
-     *                    (e.g.: {@link FileOutputStream}).
+     *                    be used at {@code ObjectOutputStream} constructor (e.g.: {@link
+     *                    FileOutputStream}).
      *
      * @throws IOException when there is an error while writing the file.
      */
@@ -331,6 +384,47 @@ public class FileToBytesExporter implements Cloneable, Serializable {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(destination)) {
             String hash = getHash(mReadData);
             String[] output = new String[]{mFileSeparator, hash, mReadData};
+            outputStream.writeObject(output);
+        }
+    }
+
+    /**
+     * Writes the read object to the specified destination given at {@code destination}. If it does
+     * not exists, {@code com.github.javinator9889.exporter.FileToBytesExporter} will create all the
+     * necessary directories in order to work as expected.
+     *
+     * @param source      the source that will be wrote to the destination - use {@link
+     *                    FileToBytesExporter#readSource(File)} for obtaining the data.
+     * @param destination relative or complete path to the output file - cannot be only dir.
+     *
+     * @throws IOException when there is an error by creating necessary directories or by writing
+     *                     the file.
+     */
+    public static void writeObject(String source, File destination) throws IOException {
+        if (!destination.exists())
+            destination.createNewFile();
+        if (destination.isDirectory())
+            throw new IOException("Destination cannot be only a directory");
+        writeObject(source, new FileOutputStream(destination));
+    }
+
+    /**
+     * Writes the read object to the specified destination given at {@code destination}. If it does
+     * not exists, {@code com.github.javinator9889.exporter.FileToBytesExporter} will create all the
+     * necessary directories in order to work as expected.
+     *
+     * @param source      the source that will be wrote to the destination - use {@link
+     *                    FileToBytesExporter#readSource(File)} for obtaining the data.
+     * @param destination subclass of {@link OutputStream} which contains the output file that can
+     *                    be used at {@code ObjectOutputStream} constructor (e.g.: {@link
+     *                    FileOutputStream}).
+     *
+     * @throws IOException when there is an error while writing the file.
+     */
+    public static void writeObject(String source, OutputStream destination) throws IOException {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(destination)) {
+            String hash = getHash(source);
+            String[] output = new String[]{"", hash, source};
             outputStream.writeObject(output);
         }
     }
@@ -408,7 +502,7 @@ public class FileToBytesExporter implements Cloneable, Serializable {
      *
      * @return {@code String} with the SHA-256 hash of {@code source}.
      */
-    protected String getHash(String source) {
+    protected static String getHash(String source) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] sourceBytes = source.getBytes(StandardCharsets.UTF_8);
@@ -552,7 +646,7 @@ public class FileToBytesExporter implements Cloneable, Serializable {
      */
     @Override
     protected Object clone() {
-        return new FileToBytesExporter(mFilename, mPath, mReadData, mFileSeparator);
+        return new FileToBytesExporter(mFilename, mPath, mReadData, mFileSeparator, mMustOpenSourcePath);
     }
 
 
